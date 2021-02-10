@@ -8,12 +8,12 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-    @ManyToOne
-    @JoinColumn( name = "room_id")
-    private Room room;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
+//    @ManyToOne
+//    @JoinColumn( name = "room_id")
+//    private Room room;
     private Date startDate, endDate;
     private Double totalPrice;
 }
