@@ -6,7 +6,7 @@ import java.util.Date;
 @Entity
 public class Tour {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     @JoinColumn(name = "room_id")
