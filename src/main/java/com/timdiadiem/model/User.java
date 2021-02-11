@@ -24,6 +24,8 @@ public class User implements UserDetails {
     private String email;
     private String phone;
     private String address;
+    @ManyToOne
+    @JoinColumn(name = "bank_id")
     private BankAcount bankAcount;
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
@@ -90,6 +92,93 @@ public class User implements UserDetails {
         this.bankAcount = bankAcount;
         this.userRole = userRole;
         this.enabled = enabled;
+        this.locked = locked;
+    }
+
+    public User() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public BankAcount getBankAcount() {
+        return bankAcount;
+    }
+
+    public void setBankAcount(BankAcount bankAcount) {
+        this.bankAcount = bankAcount;
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
         this.locked = locked;
     }
 }
