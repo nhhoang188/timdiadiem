@@ -24,7 +24,7 @@ public class User implements UserDetails {
     private String email;
     private String phone;
     private String address;
-    private BankAcount bankAcount;
+//    private BankAcount bankAcount;
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
     private boolean enabled;
@@ -64,7 +64,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return enabled;
     }
 
     // constructors
@@ -76,7 +76,7 @@ public class User implements UserDetails {
             , @Email String email
             , String phone
             , String address
-            , BankAcount bankAcount
+//            , BankAcount bankAcount
             , UserRole userRole
             , boolean enabled
             , boolean locked) {
@@ -87,7 +87,7 @@ public class User implements UserDetails {
         this.email = email;
         this.phone = phone;
         this.address = address;
-        this.bankAcount = bankAcount;
+//        this.bankAcount = bankAcount;
         this.userRole = userRole;
         this.enabled = enabled;
         this.locked = locked;
