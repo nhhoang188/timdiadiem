@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table id="customers" border="1">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>address</th>
+        <th>convenient</th>
+        <th>fulldescription</th>
+        <th>sortdescription</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="hotel : ${hotels}">
+        <td th:text="${hotel.getId()}"></td>
+        <td th:text="${hotel.getName()}"></td>
+        <td th:text="${hotel.getAddress()}"></td>
+        <td th:text="${hotel.getConvenient()}"></td>
+        <td th:text="${hotel.getFullDescription()}"></td>
+        <td th:text="${hotel.getSortDescription()}"></td>
+        <td><a th:href="@{hotel/edit/__${hotel.id}__}">Edit</a></td>
+        <td><a th:href="@{hotel/delete/__${hotel.id}__}">Delete</a></td>
+    </tr>
+    </tbody>
+
+</table>
+
+</body>
+</html>

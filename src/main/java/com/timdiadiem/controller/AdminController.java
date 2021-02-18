@@ -10,7 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class AdminController {
     @GetMapping
     public ModelAndView admin() {
-        return null;
+        return new ModelAndView("/views/index");
+
     }
 
     @GetMapping("edit-hotel")
