@@ -1,9 +1,13 @@
 package com.timdiadiem.model;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -12,6 +16,8 @@ import java.util.Collections;
 
 @Entity
 @NoArgsConstructor
+@Getter
+@Setter
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,8 +33,8 @@ public class User implements UserDetails {
 //    private BankAcount bankAcount;
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
-    private boolean enabled;
-    private boolean locked;
+    private boolean enabled = false;
+    private boolean locked = false;
 
     // override
     @Override
@@ -73,13 +79,11 @@ public class User implements UserDetails {
             , String lastName
             , String username
             , String password
-            , @Email String email
+            , String email
             , String phone
             , String address
 //            , BankAcount bankAcount
-            , UserRole userRole
-            , boolean enabled
-            , boolean locked) {
+            , UserRole userRole) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -89,7 +93,5 @@ public class User implements UserDetails {
         this.address = address;
 //        this.bankAcount = bankAcount;
         this.userRole = userRole;
-        this.enabled = enabled;
-        this.locked = locked;
     }
 }
