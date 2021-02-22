@@ -4,10 +4,15 @@ import com.timdiadiem.service.pkInterface.HotelService;
 import com.timdiadiem.service.pkInterface.TourService;
 import com.timdiadiem.service.pkInterface.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
@@ -20,13 +25,12 @@ public class AdminController {
     UserService userService;
     @GetMapping
     public ModelAndView admin() {
-        return new ModelAndView("views-web/index");
-
+        return new ModelAndView("views-admin/hotel-edit");
     }
 
     @GetMapping("/edit-hotel")
-    public ModelAndView editHotel() {
-        return new ModelAndView("views-web/listhotel");
+    public ModelAndView editHotel(@PageableDefault(size = 2) Pageable pageable) {
+        return new ModelAndView("views-admin/hotel-edit",  "listHotel", hotelService.findAll(pageable));
     }
 
     @GetMapping("/edit-tour")
