@@ -8,6 +8,7 @@ public class TimdiadiemApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(TimdiadiemApplication.class, args);
+
     }
 
 

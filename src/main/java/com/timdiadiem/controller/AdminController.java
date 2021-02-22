@@ -47,4 +47,5 @@ public class AdminController {
     public ModelAndView editBlog() {
         return new ModelAndView("views-web/blog");
     }
+
 }

@@ -1,9 +1,13 @@
 package com.timdiadiem.model;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -12,30 +16,30 @@ import java.util.Collections;
 
 @Entity
 @NoArgsConstructor
+@Getter
+@Setter
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private String username;
     private String password;
     @Email
     private String email;
     private String phone;
     private String address;
-    @ManyToOne
-    @JoinColumn( name = "bank_id")
-    private BankAcount bankAcount;
+//    private BankAcount bankAcount;
     @Enumerated(EnumType.STRING)
-    private UserRole userrole;
-    private boolean enabled;
-    private boolean locked;
+    private UserRole userRole;
+    private boolean enabled = false;
+    private boolean locked = false;
 
     // override
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority  = new SimpleGrantedAuthority(userrole.name());
+        SimpleGrantedAuthority authority  = new SimpleGrantedAuthority(userRole.name());
         return Collections.singletonList(authority);
     }
 
@@ -66,32 +70,28 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return enabled;
     }
 
     // constructors
 
-    public User(String firstname
-            , String lastname
+    public User(String firstName
+            , String lastName
             , String username
             , String password
-            , @Email String email
+            , String email
             , String phone
             , String address
-            , BankAcount bankAcount
-            , UserRole userrole
-            , boolean enabled
-            , boolean locked) {
-        this.firstname = firstname;
-        this.lastname = lastname;
+//            , BankAcount bankAcount
+            , UserRole userRole) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.username = username;
         this.password = password;
         this.email = email;
         this.phone = phone;
         this.address = address;
-        this.bankAcount = bankAcount;
-        this.userrole = userrole;
-        this.enabled = enabled;
-        this.locked = locked;
+//        this.bankAcount = bankAcount;
+        this.userRole = userRole;
     }
 }
