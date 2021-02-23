@@ -22,7 +22,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/","/register/**").permitAll()
+                .antMatchers("/"
+                        ,"/register/**"
+                ).permitAll()
 //                .antMatchers("/admin/**").hasRole(UserRole.ADMIN.name())
                 .anyRequest()
                 .authenticated()
@@ -42,4 +44,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setUserDetailsService(userService);
         return provider;
     }
+
 }

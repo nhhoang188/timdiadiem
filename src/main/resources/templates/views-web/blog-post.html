@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head >
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -10,20 +10,24 @@
             selector: '#mytextarea'
         });
     </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
 
 </head>
-
 <body>
-<form method="post" action="">
+<form method="post" action="/blogs/add">
     <input type="text" name="title" placeholder="Blog title">
-    <textarea id="mytextarea"></textarea>
+    <textarea id="mytextarea" name="content"></textarea>
     <select name="blogCategory" >
         <option th:each="blogcategory : ${blogCategories}"
                 th:value="${blogcategory.id}"
-                th:text="${blogcategory.name}"
-        ></option>
+                th:text="${blogcategory.name}">
+        </option>
     </select>
-    <button type="submit">Post </button>
+    <input type="text" value="html,input,tag" data-role="tagsinput" name="blogTags">
+    <button type="submit">Post</button>
 </form>
 </body>
 </html>

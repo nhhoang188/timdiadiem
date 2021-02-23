@@ -22,9 +22,9 @@ public class Blog {
 
     @ManyToMany
     @JoinTable(
-            name = "blog_tags",
+            name = "blog_tags_info",
             joinColumns = @JoinColumn(name = "blog_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
+            inverseJoinColumns = @JoinColumn(name = "tag_name")
     )
     private Set<BlogTag> blogTags;
 

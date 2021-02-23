@@ -1,19 +1,15 @@
 package com.timdiadiem.controller;
 
+import com.timdiadiem.model.BlogCategory;
 import com.timdiadiem.model.User;
-import com.timdiadiem.service.pkInterface.BlogService;
-import com.timdiadiem.service.pkInterface.HotelService;
-import com.timdiadiem.service.pkInterface.TourService;
-import com.timdiadiem.service.pkInterface.UserService;
+import com.timdiadiem.service.pkInterface.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -28,6 +24,8 @@ public class AdminController {
     UserService userService;
     @Autowired
     private BlogService blogService;
+    @Autowired
+    private BlogCategoryService blogCategoryService;
     @GetMapping
     public ModelAndView admin() {
         return new ModelAndView("views-admin/hotel-edit");
@@ -54,8 +52,13 @@ public class AdminController {
     }
 
     @GetMapping("/blogs")
-    public ModelAndView showListBlogsNotVerified(){
+    public ModelAndView showAllBLogs(){
         return new ModelAndView();
+    }
+
+    @PostMapping("/blogs/categories/add")
+    public void addCategories(@ModelAttribute BlogCategory blogCategory){
+        blogCategoryService.save(blogCategory);
     }
 
 }

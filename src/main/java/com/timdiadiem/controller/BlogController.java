@@ -1,14 +1,14 @@
 package com.timdiadiem.controller;
 
-import com.timdiadiem.model.Blog;
+import com.timdiadiem.service.impl.BlogAddRequest;
 import com.timdiadiem.service.pkInterface.BlogCategoryService;
 import com.timdiadiem.service.pkInterface.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-@RestController
+@Controller
 @RequestMapping("/blogs")
 public class BlogController {
     @Autowired
@@ -16,19 +16,27 @@ public class BlogController {
 
     @Autowired
     private BlogCategoryService blogCategoryService;
+
     @GetMapping("/add")
     public ModelAndView showAddNewBlogForm(){
-        return new ModelAndView("views-web/blog-post","blogCategories",blogCategoryService.findAll());
+        return new ModelAndView("views-web/blog-post","blogCategories",blogCategoryService.findAllCategoriesAndCountNumberBlogHasIt());
     }
 
     @PostMapping("/add")
-    public void postBlog(@RequestBody Blog blog){
-        blogService.saveBlog(blog);
-        System.out.println("posted");
+    public void postBlog(@RequestBody BlogAddRequest blogAddRequest){
+        blogService.saveBlog(blogAddRequest);
     }
+
     @GetMapping("/{blogId}")
     public ModelAndView showBlog(@PathVariable Long blogId){
-        return new ModelAndView("/views-web/blog-single","blog", blogService.findById(blogId));
+        if (blogService.findById(blogId) == null){
+            return new ModelAndView("/views-error/blog-not-found");
+        }
+        ModelAndView modelAndView = new ModelAndView("/views-web/blog-single");
+        modelAndView.addObject("blog",blogService.findById(blogId));
+        modelAndView.addObject("blogCategoriesMap",blogCategoryService.findAllCategoriesAndCountNumberBlogHasIt());
+        modelAndView.addObject("recentBlogs",blogService.findAllRecentBlogs());
+        return modelAndView;
     }
 
 }

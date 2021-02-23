@@ -1,14 +1,14 @@
 package com.timdiadiem.repository;
 
-import com.timdiadiem.model.BlogCategory;
+import com.timdiadiem.model.BlogTag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
 
-@Transactional
 @Repository
-public interface BlogCategoryRepository extends JpaRepository<BlogCategory,Long> {
-    public Optional<BlogCategory> findByName(String blogCategoryName);
+@Transactional
+public interface BlogTagRepository extends JpaRepository<BlogTag,Long> {
+    public Optional<BlogTag> findByName(String name);
 }
