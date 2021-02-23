@@ -10,7 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @RestController
-@SessionAttributes("user")
 @RequestMapping("/register")
 public class RegistrationController {
     @Autowired
