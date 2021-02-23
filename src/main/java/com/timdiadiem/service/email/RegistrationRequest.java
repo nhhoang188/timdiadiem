@@ -31,4 +31,7 @@ public class RegistrationRequest {
 //    public void validate(Object target, Errors errors) {
 //        System.out.println("abc");
 //    }
+
+    public RegistrationRequest() {
+    }
 }
