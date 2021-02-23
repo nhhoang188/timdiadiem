@@ -1,9 +1,8 @@
 package com.timdiadiem.security;
 
 import com.timdiadiem.model.UserRole;
-import com.timdiadiem.service.UserService;
+import com.timdiadiem.service.email.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -11,8 +10,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-
-import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableWebSecurity
@@ -26,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/","/register/**").permitAll()
-                .antMatchers("/admin/**").hasRole(UserRole.ADMIN.name())
+//                .antMatchers("/admin/**").hasRole(UserRole.ADMIN.name())
                 .anyRequest()
                 .authenticated()
                 .and()

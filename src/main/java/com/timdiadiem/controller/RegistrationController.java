@@ -1,8 +1,7 @@
 package com.timdiadiem.controller;
 
-import com.timdiadiem.service.RegistrationRequest;
-import com.timdiadiem.service.RegistrationService;
-import com.timdiadiem.service.SendEmailService;
+import com.timdiadiem.service.email.RegistrationRequest;
+import com.timdiadiem.service.email.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,10 +14,9 @@ public class RegistrationController {
     @Autowired
     private RegistrationService registrationService;
 
-    @GetMapping
-    public ModelAndView showRegistrationForm(){
-        return new ModelAndView();
-    }
+//    @GetMapping
+//    public String showRegistrationForm(){
+//    }
     @PostMapping
     public String register(@Valid @RequestBody RegistrationRequest registrationRequest){
         return registrationService.register(registrationRequest);
