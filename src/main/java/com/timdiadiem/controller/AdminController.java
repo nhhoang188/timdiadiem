@@ -1,5 +1,6 @@
 package com.timdiadiem.controller;
 
+import com.timdiadiem.service.email.UserService;
 import com.timdiadiem.service.pkInterface.HotelService;
 import com.timdiadiem.service.pkInterface.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,11 @@ public class AdminController {
     HotelService hotelService;
     @Autowired
     TourService tourService;
+    @Autowired
+    UserService userService;
     @GetMapping
     public ModelAndView admin() {
-        return new ModelAndView("views-admin/admin");
+        return new ModelAndView("views-admin/admin", "notification", userService.findByEnabledIsFalse());
     }
 
     @GetMapping("/edit-hotel")
@@ -34,7 +37,7 @@ public class AdminController {
 
     @GetMapping("/edit-user")
     public ModelAndView editUser() {
-        return new ModelAndView("views-admin/user");
+        return new ModelAndView("views-admin/user", "listUser", userService.findAll());
     }
 
     @GetMapping("/edit-blog")

@@ -7,11 +7,19 @@ import java.util.Optional;
 
 public interface iUserService {
     String signUpUser(User user);
-    public int enableUser(String email);
-    public int lockUser(String username);
-    public int unlockUser(String username);
+    List<User> findByEnabledIsFalse();
 
-    public List<User> findAll();
-    public Optional<User> findByUsername(String username);
-    public void deleteUser(Long id);
+    int enableUserByEmail(String email);
+
+    int enableUser(String id);
+
+    int lockUser(String username);
+
+    int unlockUser(String username);
+
+    List<User> findAll();
+
+    Optional<User> findByUsername(String username);
+
+    void deleteUser(Long id);
 }

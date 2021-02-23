@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.awt.print.Pageable;
+import java.util.List;
 import java.util.Optional;
 
 @Transactional
@@ -15,10 +17,16 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User,Long> {
     Optional<User> findByUsername(String username);
     Optional<User> findByEmail(String email);
+    List<User> findAllByEnabledIsFalse();
+
 
     @Modifying
     @Query("UPDATE User a SET a.enabled = TRUE WHERE a.email = ?1")
-    int enableUser(String email);
+    int enableUserByEmail(String email);
+
+    @Modifying
+    @Query("UPDATE User a SET a.enabled = TRUE WHERE a.id = ?1")
+    int enableUser(String id);
 
     @Modifying
     @Query("UPDATE User a SET a.locked = TRUE WHERE a.username = ?1")

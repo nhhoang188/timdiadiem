@@ -54,8 +54,18 @@ public class UserService implements UserDetailsService,iUserService {
     }
 
     @Override
-    public int enableUser(String email){
-        return userRepository.enableUser(email);
+    public List<User> findByEnabledIsFalse() {
+        return userRepository.findAllByEnabledIsFalse();
+    }
+
+    @Override
+    public int enableUserByEmail(String email){
+        return userRepository.enableUserByEmail(email);
+    }
+
+    @Override
+    public int enableUser(String id) {
+        return userRepository.enableUser(id);
     }
 
     @Override
