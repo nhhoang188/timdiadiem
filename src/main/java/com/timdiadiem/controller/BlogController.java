@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,10 +34,18 @@ public class BlogController {
         return new ModelAndView("/views-web/blog","listBlogs",blogService.findAll(pageable));
     }
 
-    @GetMapping("/search")
+    @GetMapping("/searchbytag")
     public ModelAndView showListBlogsByTag(@RequestParam("tagid") Long tagId){
-        blogService.findByTag(tagId);
         return new ModelAndView("/views-web/blog","listBlogs",blogService.findByTag(tagId));
+    }
+    @GetMapping("/searchbydaycreate")
+    public ModelAndView showListBlogsByCreatedAt(@RequestParam("createdat") String createdAt){
+        return new ModelAndView("/views-web/blog","listBlogs",blogService.findByCreatedAt(LocalDate.parse(createdAt)));
+    }
+    @GetMapping("/searchbycategory")
+    public ModelAndView showListBlogsByCategory(@RequestParam("categoryid") Long categoryId){
+        List<Blog> blogs = blogService.findByCategory(categoryId);
+        return new ModelAndView("/views-web/blog","listBlogs",blogService.findByCategory(categoryId));
     }
 
     @GetMapping("/add")
@@ -53,11 +63,11 @@ public class BlogController {
         if (blogService.findById(blogId) == null){
             return new ModelAndView("/views-error/blog-not-found");
         }
+        blogService.view(blogId);
         ModelAndView modelAndView = new ModelAndView("/views-web/blog-single");
         modelAndView.addObject("blog",blogService.findById(blogId));
         modelAndView.addObject("popularTags",blogTagService.find10PopularTags());
         modelAndView.addObject("blogCategoriesMap",blogCategoryService.findAllCategoriesAndCountNumberBlogHasIt());
-        List<Blog> a = blogService.findAllRecentBlogs();
         modelAndView.addObject("recentBlogs",blogService.findAllRecentBlogs());
         return modelAndView;
     }
@@ -69,5 +79,9 @@ public class BlogController {
                 .stream()
                 .map(blog -> blog.getContent())
                 .collect(Collectors.toList());
+    }
+    @GetMapping("/about")
+    public String aboutUs(){
+        return "/views-web/about";
     }
 }
