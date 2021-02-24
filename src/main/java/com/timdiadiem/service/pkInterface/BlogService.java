@@ -21,4 +21,5 @@ public interface BlogService {
     public Long countBlogsByCategory(BlogCategory blogCategory);
     public List<Blog> findByTag(Long tagId);
     public Page<Blog> findAll(Pageable pageable);
+    public List<Blog> findAllByTitle(String title);
 }

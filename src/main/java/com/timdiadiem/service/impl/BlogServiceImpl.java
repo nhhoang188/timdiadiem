@@ -78,6 +78,11 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    public List<Blog> findAllByTitle(String title) {
+        return blogRepository.findAllByTitle(title);
+    }
+
+    @Override
     public List<Blog> findByCategory(String category) {
         return null;
     }

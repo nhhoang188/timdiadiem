@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/blogs")
@@ -32,7 +33,8 @@ public class BlogController {
     }
 
     @GetMapping("/search")
-    public ModelAndView showListBlogsByTag(@RequestParam("tagId") Long tagId){
+    public ModelAndView showListBlogsByTag(@RequestParam("tagid") Long tagId){
+        blogService.findByTag(tagId);
         return new ModelAndView("/views-web/blog","listBlogs",blogService.findByTag(tagId));
     }
 
@@ -60,5 +62,12 @@ public class BlogController {
         return modelAndView;
     }
 
-
+    @GetMapping("/suggest")
+    @ResponseBody
+    public List<String> suggest(@RequestParam(value="term",required = false,defaultValue = "") String term){
+       return blogService.findAllByTitle(term)
+                .stream()
+                .map(blog -> blog.getContent())
+                .collect(Collectors.toList());
+    }
 }

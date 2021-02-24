@@ -28,8 +28,14 @@ public interface BlogRepository extends JpaRepository<Blog,Long> {
 
     public Long countBlogsByBlogCategory(BlogCategory blogCategory);
 
+    @Query(nativeQuery = true,
+            value = "SELECT blog.* " +
+                    "FROM blog " +
+                    "JOIN blog_tags_info ON blog_tags_info.blogid = blog.id " +
+                    "JOIN blog_tag ON blog_tags_info.tag_id = blog_tag.id " +
+                    "WHERE blog_tag.id = ?1")
     public List<Blog> findAllByBlogTagsOrderByViewsDesc(Long tagId);
 
-    @Override
-    Page<Blog> findAll(Pageable pageable);
+    public List<Blog> findAllByTitle(String name);
+
 }
