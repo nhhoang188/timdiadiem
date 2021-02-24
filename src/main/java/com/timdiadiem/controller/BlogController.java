@@ -26,7 +26,7 @@ public class BlogController {
 
     @PostMapping("/add")
     public void postBlog(@RequestBody Blog blog){
-        blogService.saveBlog(blog);
+//        blogService.saveBlog(blog);
         System.out.println("posted");
     }
     @GetMapping("/{blogId}")

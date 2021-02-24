@@ -22,4 +22,5 @@ public interface iUserService {
     Optional<User> findByUsername(String username);
 
     void deleteUser(Long id);
+    Optional<User> findByid(Long id);
 }
