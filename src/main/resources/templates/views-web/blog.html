@@ -86,7 +86,7 @@
                 <div class="col-md-4 d-flex ftco-animate">
                     <div class="blog-entry">
                         <a th:href="@{/blogs/{id}(id = ${blog.id})}" class="block-20"
-                           style="background-image: url('/images/image_3.jpg');">
+                           th:style="${'background-image : url(' + 'https://doshopvn.com/wp-content/uploads/2020/12/top-dien-vien-jav-tre-nhat-rikka-ono-min.jpg' + ');'}">
                         </a>
                         <div class="text">
                             <div class="d-flex align-items-center mb-4 topp">
@@ -99,7 +99,7 @@
                                 </div>
                             </div>
                             <h3 class="heading"><a th:href="@{/blogs/{id}(id = ${blog.id})}" th:text="${blog.title}">Most Popular Place In This World</a></h3>
-                            <p >A small river named Duden flows by their place and supplies it with the necessary
+                            <p th:text="${blog.previewDescription}">A small river named Duden flows by their place and supplies it with the necessary
                                 regelialia.</p>
                             <p><a th:href="@{/blogs/{id}(id = ${blog.id})}" class="btn btn-primary">Read more</a></p>
                         </div>

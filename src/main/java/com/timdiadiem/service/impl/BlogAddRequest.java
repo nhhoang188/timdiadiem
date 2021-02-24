@@ -14,4 +14,8 @@ public class BlogAddRequest {
     private String content;
     private String blogTags;
     private BlogCategory blogCategory;
+    private String previewImageURL;
+    private String previewDescription;
+
+    //TODO : validate
 }

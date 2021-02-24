@@ -43,6 +43,8 @@ public class BlogServiceImpl implements BlogService {
         blog.setBlogCategory(blogAddRequest.getBlogCategory());
         blog.setTitle(blogAddRequest.getTitle());
         blog.setContent(blogAddRequest.getContent());
+        blog.setPreviewDescription(blogAddRequest.getPreviewDescription());
+        blog.setPreviewImageURL(blogAddRequest.getPreviewImageURL());
 
         Set<BlogTag> blogTags = new HashSet<BlogTag>();
         Set<String> split = new HashSet<String>(Arrays.asList(blogAddRequest.getBlogTags().split(",")));
