@@ -2,6 +2,8 @@ package com.timdiadiem.repository;
 
 import com.timdiadiem.model.Blog;
 import com.timdiadiem.model.BlogCategory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -25,4 +27,9 @@ public interface BlogRepository extends JpaRepository<Blog,Long> {
     public List<Blog> findTop3ByOrderByCreatedAtDesc();
 
     public Long countBlogsByBlogCategory(BlogCategory blogCategory);
+
+    public List<Blog> findAllByBlogTagsOrderByViewsDesc(Long tagId);
+
+    @Override
+    Page<Blog> findAll(Pageable pageable);
 }

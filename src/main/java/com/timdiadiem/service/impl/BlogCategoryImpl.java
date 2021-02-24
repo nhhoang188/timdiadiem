@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -19,6 +20,11 @@ public class BlogCategoryImpl implements BlogCategoryService {
 
     @Autowired
     private BlogService blogService;
+
+    @Override
+    public List<BlogCategory> findAll() {
+        return blogCategoryRepository.findAll();
+    }
 
     @Override
     public Map<BlogCategory, Long> findAllCategoriesAndCountNumberBlogHasIt() {

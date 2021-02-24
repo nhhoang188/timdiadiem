@@ -9,9 +9,12 @@ import com.timdiadiem.repository.BlogRepository;
 import com.timdiadiem.repository.BlogTagRepository;
 import com.timdiadiem.service.pkInterface.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -22,6 +25,11 @@ public class BlogServiceImpl implements BlogService {
     @Autowired
     private BlogTagRepository blogTagRepository;
 
+    @Override
+    public List<Blog> findAll() {
+        return blogRepository.findAll();
+    }
+
     public void verifyBlog(Long id){
         blogRepository.verifyBlog(id);
     }
@@ -31,7 +39,7 @@ public class BlogServiceImpl implements BlogService {
         Blog blog = new Blog();
         //        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //        blog.setUser(user);
-        blog.setCreatedAt(LocalDateTime.now());
+        blog.setCreatedAt(LocalDate.now());
         blog.setBlogCategory(blogAddRequest.getBlogCategory());
         blog.setTitle(blogAddRequest.getTitle());
         blog.setContent(blogAddRequest.getContent());
@@ -58,8 +66,13 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public List<Blog> findByTag(String tag) {
-        return null;
+    public List<Blog> findByTag(Long tagId) {
+        return blogRepository.findAllByBlogTagsOrderByViewsDesc(tagId);
+    }
+
+    @Override
+    public Page<Blog> findAll(Pageable pageable) {
+        return blogRepository.findAll(pageable);
     }
 
     @Override
@@ -77,6 +90,4 @@ public class BlogServiceImpl implements BlogService {
         return blogRepository.countBlogsByBlogCategory(blogCategory);
     }
 
-//    @Override
-//    public
 }
