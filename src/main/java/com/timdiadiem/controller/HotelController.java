@@ -5,8 +5,11 @@ import com.timdiadiem.model.Hotel;
 import com.timdiadiem.model.User;
 import com.timdiadiem.service.email.UserService;
 import com.timdiadiem.service.pkInterface.CommentService;
+import com.timdiadiem.service.pkInterface.ConvenientService;
 import com.timdiadiem.service.pkInterface.HotelService;
 import java.security.Principal;
+
+import com.timdiadiem.service.pkInterface.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +28,10 @@ public class HotelController {
     UserService userService;
     @Autowired
     CommentService commentService;
-
+    @Autowired
+    ConvenientService convenientService;
+    @Autowired
+    RoomService roomService;
     @GetMapping
     public ModelAndView hotel(@PageableDefault(size = 3) Pageable pageable) {
         Page<Hotel> hotels = hotelService.findAll(pageable);
@@ -36,6 +42,8 @@ public class HotelController {
     public ModelAndView hotel(@PathVariable Long id, Principal principal) {
         ModelAndView modelAndView = new ModelAndView("/views-web/hotel-info");
         modelAndView.addObject("hotel", hotelService.findById(id));
+        modelAndView.addObject("listcomment", commentService.findCommentByHotelId(id));
+        modelAndView.addObject("listconvenient", convenientService.findConvenientByHotelId(id));
         modelAndView.addObject("comment", new Comment());
         if (principal != null){
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
