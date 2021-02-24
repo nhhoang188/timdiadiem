@@ -11,7 +11,7 @@ public interface iUserService {
 
     int enableUserByEmail(String email);
 
-    int enableUser(String id);
+    int enableUser(Long id);
 
     int lockUser(String username);
 

@@ -64,7 +64,7 @@ public class UserService implements UserDetailsService,iUserService {
     }
 
     @Override
-    public int enableUser(String id) {
+    public int enableUser(Long id) {
         return userRepository.enableUser(id);
     }
 

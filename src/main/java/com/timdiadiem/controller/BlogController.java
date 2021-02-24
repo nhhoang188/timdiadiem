@@ -15,6 +15,10 @@ public class BlogController {
 
     @Autowired
     private BlogCategoryService blogCategoryService;
+    @GetMapping
+    public ModelAndView blog(){
+        return new ModelAndView("views-web/blog");
+    }
     @GetMapping("/add")
     public ModelAndView showAddNewBlogForm(){
         return new ModelAndView("views-web/blog-post","blogCategories",blogCategoryService.findAll());

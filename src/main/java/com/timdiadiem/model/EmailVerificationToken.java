@@ -18,10 +18,10 @@ public class EmailVerificationToken {
     private Long id;
     private String token;
 
-    @NotNull
+
     private LocalDateTime createdAt;
 
-    @NotNull
+
     private LocalDateTime expiredAt;
     private LocalDateTime verifiedAt;
 

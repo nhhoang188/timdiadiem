@@ -20,7 +20,7 @@ public class HotelController {
     @GetMapping
     public ModelAndView hotel(@PageableDefault(size = 3) Pageable pageable) {
         Page<Hotel> hotels = hotelService.findAll(pageable);
-        return new ModelAndView("/views/test","hotels",hotels);
+        return new ModelAndView("/views-web/listhotel","hotels",hotels);
 
     }
     @GetMapping("/{id}")
