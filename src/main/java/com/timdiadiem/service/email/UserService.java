@@ -93,6 +93,10 @@ public class UserService implements UserDetailsService,iUserService {
          userRepository.deleteById(id);
     }
 
+    @Override
+    public Optional<User> findByid(Long id) {
+        return userRepository.findById(id);
+    }
 
 
 }
