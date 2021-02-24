@@ -24,13 +24,14 @@ public class User implements UserDetails {
     private String email;
     private String phone;
     private String address;
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn( name = "bank_id")
     private BankAcount bankAcount;
     @Enumerated(EnumType.STRING)
     private UserRole userrole;
     private boolean enabled;
     private boolean locked;
+
 
     // override
     @Override
@@ -93,5 +94,41 @@ public class User implements UserDetails {
         this.userrole = userrole;
         this.enabled = enabled;
         this.locked = locked;
+    }
+
+    public BankAcount getBankAcount() {
+        return bankAcount;
+    }
+
+    public void setBankAcount(BankAcount bankAcount) {
+        this.bankAcount = bankAcount;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    public User(Long id, String firstname, String lastname, String username, String password, @Email String email, String phone, String address, BankAcount bankAcount, UserRole userrole, boolean enabled, boolean locked) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.bankAcount = bankAcount;
+        this.userrole = userrole;
+        this.enabled = enabled;
+        this.locked = locked;
+
     }
 }

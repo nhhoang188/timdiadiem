@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="static/css/bootstrap/bootstrap.bookingform.css" />
+    <link type="text/css" rel="stylesheet" href="static/css/bootstrap/style.bookingform.css" />
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script>
+        function setMin() {
+            let date = new Date();
+            let today = date.getFullYear() + '-' +
+                ('0' + (date.getMonth()+1)).slice(-2) + '-' +
+                ('0' + date.getDate()).slice(-2);
+            console.log(today)
+            document.getElementById("startdate").min = today;
+        }
+        setMin();
+        function calculate() {
+            let startdate = document.getElementById("startdate").value;
+            let enddate = document.getElementById("enddate").value;
+            let datestart = new Date(startdate);
+            let dateend = new Date(enddate);
+            let offset = dateend.getTime() - datestart.getTime();
+            let difdays = Math.round(offset/1000/60/60/24)
+            console.log(difdays);
+        }
+    </script>
+</head>
+<body>
+<div class="col-md-4 col-md-pull-7">
+    <div class="booking-form">
+        <form method="get" action="/booking/checkavailability">
+            <div class="form-group">
+                <span class="form-label">Room Id</span>
+                <input class="form-control" name="roomid" type="text" th:value="${room.getId()}">
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <span class="form-label">Check In</span>
+                        <input class="form-control" type="date" onchange="calculate()" name="startdate" min="2021-02-22" id="startdate" required>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <span class="form-label">Check out</span>
+                        <input class="form-control" id="enddate" name="enddate" onchange="calculate()" type="date" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <span class="form-label">Rooms</span>
+                        <select class="form-control">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </select>
+                        <span class="select-arrow"></span>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <span class="form-label">Adults</span>
+                        <select class="form-control">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </select>
+                        <span class="select-arrow"></span>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <span class="form-label">Children</span>
+                        <select class="form-control">
+                            <option>0</option>
+                            <option>1</option>
+                            <option>2</option>
+                        </select>
+                        <span class="select-arrow"></span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <p id="totalprice"></p>
+            </div>
+            <div class="form-btn">
+                <button class="submit-btn">Check availability</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

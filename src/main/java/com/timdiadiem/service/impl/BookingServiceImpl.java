@@ -8,6 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -38,5 +41,26 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public void deleteById(Long id) {
         bookingRepository.deleteById(id);
+    }
+    public boolean isAvailable(Long roomid, Date startdate, Date enddate){
+        boolean isAvailable = true;
+        ArrayList<Booking> bookingList =(ArrayList<Booking>) bookingRepository.findBookingsByRoomId(roomid);
+        ArrayList<Date>startdatelist = new ArrayList<>();
+        ArrayList<Date>enddatelist = new ArrayList<>();
+        for (int i = 0; i < bookingList.size(); i++) {
+            startdatelist.add(bookingList.get(i).getStartDate());
+        }
+        for (int i = 0; i < bookingList.size(); i++) {
+            enddatelist.add(bookingList.get(i).getEndDate());
+        }
+        for (int i = 0; i < bookingList.size(); i++) {
+            if(enddate.before(startdatelist.get(i))||startdate.after(enddatelist.get(i))){
+                isAvailable=true;
+            }else {
+                isAvailable = false;
+                break;
+            }
+        }
+        return isAvailable;
     }
 }
