@@ -1,5 +1,6 @@
 package com.timdiadiem.controller;
 
+import com.timdiadiem.model.User;
 import com.timdiadiem.service.email.UserService;
 import com.timdiadiem.service.pkInterface.HotelService;
 import com.timdiadiem.service.pkInterface.TourService;
@@ -8,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,6 +23,7 @@ public class AdminController {
     TourService tourService;
     @Autowired
     UserService userService;
+
     @GetMapping
     public ModelAndView admin() {
         return new ModelAndView("views-admin/admin", "notification", userService.findByEnabledIsFalse());
@@ -27,7 +31,7 @@ public class AdminController {
 
     @GetMapping("/edit-hotel")
     public ModelAndView editHotel(@PageableDefault(size = 2) Pageable pageable) {
-        return new ModelAndView("views-admin/hotel",  "listHotel", hotelService.findAll(pageable));
+        return new ModelAndView("views-admin/hotel", "listHotel", hotelService.findAll(pageable));
     }
 
     @GetMapping("/edit-tour")
@@ -40,10 +44,22 @@ public class AdminController {
         return new ModelAndView("views-admin/user", "listUser", userService.findAll());
     }
 
+    @GetMapping("/edit-user/browsing")
+    public ModelAndView browsingUser() {
+        return new ModelAndView("views-admin/browsing-user", "notification", userService.findByEnabledIsFalse());
+    }
+
+    @PostMapping("/edit-user/browsing")
+    public ModelAndView deleteCustomer(@ModelAttribute("user") User user) {
+        userService.enableUser(user.getId());
+        return new ModelAndView("redirect:/admin/edit-user/browsing");
+    }
+
     @GetMapping("/edit-blog")
     public ModelAndView editBlog() {
         return new ModelAndView("views-admin/blog");
     }
+
     @GetMapping("/edit-booking")
     public ModelAndView editBooking() {
         return new ModelAndView("views-admin/booking");
