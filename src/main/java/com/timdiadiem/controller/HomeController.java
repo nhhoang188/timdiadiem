@@ -21,4 +21,8 @@ public class HomeController {
         }
         return modelAndView;
     }
+    @GetMapping("/contact")
+    public String contactPage(){
+        return "/views-web/contact";
+    }
 }

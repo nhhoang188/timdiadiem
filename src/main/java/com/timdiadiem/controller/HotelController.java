@@ -36,6 +36,7 @@ public class HotelController {
     public ModelAndView hotel(@PathVariable Long id, Principal principal) {
         ModelAndView modelAndView = new ModelAndView("/views-web/hotel-info");
         modelAndView.addObject("hotel", hotelService.findById(id));
+        modelAndView.addObject("comment", new Comment());
         if (principal != null){
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             modelAndView.addObject( "user", user);
@@ -43,7 +44,7 @@ public class HotelController {
         return modelAndView;
     }
 
-    @PostMapping("/1")
+    @PostMapping("/{id}")
     public ModelAndView postCmt(@ModelAttribute("comment") Comment comment) {
         commentService.save(comment);
         return new ModelAndView("redirect:/hotels");
