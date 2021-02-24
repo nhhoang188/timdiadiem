@@ -96,11 +96,14 @@
 
           </ul>
 
-          
+          <th:block th:if="${user}">
           <div class="comment-form-wrap pt-5">
-            <form action="#" class="p-5 bg-light">
+            <form th:object="${hotel}" th:action="@{/hotels/1}" method="post" class="p-5 bg-light">
               <div class="form-group">
                 <label>Message</label>
+                <input type="hidden" name="hotel_id" value="1" />
+                <input type="hidden" name="blog_id" value="1" />
+                <span th:object="${user}"><input type="hidden" name="user_id" value="1" /></span>
                 <textarea name="content" id="content" cols="30" rows="10" class="form-control"></textarea>
               </div>
               <div class="form-group">
@@ -108,6 +111,7 @@
               </div>
             </form>
           </div>
+          </th:block >
         </div>
 
       </div>

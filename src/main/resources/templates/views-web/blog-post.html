@@ -1,72 +1,33 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="head">
-    <title>Hello</title>
+<head >
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Arizonia&display=swap" rel="stylesheet">
+    <script src="https://cdn.tiny.cloud/1/hmoowes6yb7myn4ec1ilxxz6xmnp61nz6vv5l08jmp46iyfk/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#mytextarea'
+        });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <link rel="stylesheet" th:href="@{/css/animate.css}">
-
-    <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}">
-    <link rel="stylesheet" th:href="@{/css/owl.theme.default.min.css}">
-    <link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
-
-    <link rel="stylesheet" th:href="@{/css/bootstrap-datepicker.css}">
-    <link rel="stylesheet" th:href="@{/css/jquery.timepicker.css}">
-
-
-    <link rel="stylesheet" th:href="@{/css/flaticon.css}">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-        <div class="container">
-            <a class="navbar-brand" href="/">Tìm Địa Điểm<span>Travel With Us</span></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
-                    aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="oi oi-menu"></span> Menu
-            </button>
-
-            <div class="collapse navbar-collapse" id="ftco-nav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
-                    <li class="nav-item"><a href="/tours" class="nav-link">Destination</a></li>
-                    <li class="nav-item"><a href="/hotels" class="nav-link">Hotel</a></li>
-                    <li class="nav-item"><a href="/blogs" class="nav-link">Blog</a></li>
-                    <li class="dropdown show, nav-item">
-                        <a class="nav-link">About Us</a>
-                        <ul class="dropdown-menu">
-                            <a class="dropdown-item" href="/about">Infomation</a>
-                            <a class="dropdown-item" href="/contact">Contact</a>
-                        </ul>
-                    </li>
-                    <li class="dropdown show, nav-item">
-                        <a class="nav-link">Acount</a>
-                        <ul class="dropdown-menu">
-                            <a class="dropdown-item" href="/login">Login</a>
-                            <a class="dropdown-item" href="/register">Register</a>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 </head>
-
 <body>
-<form method="post" action="">
+<form method="post" action="/blogs/add">
     <input type="text" name="title" placeholder="Blog title">
-    <textarea id="mytextarea"></textarea>
+    <textarea id="mytextarea" name="content"></textarea>
     <select name="blogCategory" >
         <option th:each="blogcategory : ${blogCategories}"
                 th:value="${blogcategory.id}"
-                th:text="${blogcategory.name}"
-        ></option>
+                th:text="${blogcategory.name}">
+        </option>
     </select>
-    <button type="submit">Post </button>
+    <input type="text" value="html,input,tag" data-role="tagsinput" name="blogTags">
+    <button type="submit">Post</button>
 </form>
 </body>
 </html>

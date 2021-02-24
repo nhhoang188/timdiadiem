@@ -25,7 +25,6 @@ public class RegistrationController {
 
     @RequestMapping( method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
     public String createSmartphone(@Valid @RequestBody RegistrationRequest registrationRequest) {
         return registrationService.register(registrationRequest);
     }
