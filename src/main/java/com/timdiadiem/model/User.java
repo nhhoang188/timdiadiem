@@ -31,6 +31,7 @@ public class User implements UserDetails {
     private String phone;
     private String address;
     private String avatar;
+    private String bio;
 //    private BankAcount bankAcount;
     @Enumerated(EnumType.STRING)
     private UserRole userRole;

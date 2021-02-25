@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,5 +45,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Iterable<Comment> findCommentByHotelId(Long id) {
         return commentRepository.findCommentByHotelId(id);
+    }
+
+    @Override
+    public List<Comment> findCommentByBloglId(Long id) {
+        return commentRepository.findCommentByBlogId(id);
     }
 }

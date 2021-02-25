@@ -37,7 +37,7 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public void saveBlog(BlogAddRequest blogAddRequest){
         Blog blog = new Blog();
-        //        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //        blog.setUser(user);
         blog.setCreatedAt(LocalDate.now());
         blog.setBlogCategory(blogAddRequest.getBlogCategory());
@@ -73,6 +73,11 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    public List<Blog> findByCreatedAt(LocalDate createdAt) {
+        return blogRepository.findAllByCreatedAtOrderByViewsDesc(createdAt);
+    }
+
+    @Override
     public Page<Blog> findAll(Pageable pageable) {
         return blogRepository.findAll(pageable);
     }
@@ -83,8 +88,13 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public List<Blog> findByCategory(String category) {
-        return null;
+    public void view(Long id) {
+        blogRepository.updateViewsBlog(id);
+    }
+
+    @Override
+    public List<Blog> findByCategory(Long categoryId) {
+        return blogRepository.findAllByBlogCategoryOrderByViewsDesc(categoryId);
     }
 
     @Override

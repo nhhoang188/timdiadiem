@@ -54,15 +54,10 @@
       </div>
     </div>
   </nav>
-  <script src="${pageContext.request.contextPath }/resources/js/jquery-1.4.2.js"></script>
-  <script src="${pageContext.request.contextPath }/resources/js/jquery-ui-1.8.2.custom.js"></script>
-  <link
-          href="${pageContext.request.contextPath }/resources/css/themes/base/jquery.ui.all.css"
-          rel="stylesheet" type="text/css">
   <script type="text/javascript">
     $(function() {
       $('#blogName').autocomplete({
-        source : ["a","b"],
+        source : ["aaaaaaa","bbbbbbb"],
         minLength : 3
       });
     });
@@ -76,7 +71,7 @@
     <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-center">
       <div class="col-md-9 ftco-animate pb-5 text-center">
        <p class="breadcrumbs"><span class="mr-2"><a href="/">Home <i class="fa fa-chevron-right"></i></a></span> <span class="mr-2"><a href="/blogs">Blog <i class="fa fa-chevron-right"></i></a></span> <span>Blog Single <i class="fa fa-chevron-right"></i></span></p>
-       <h1 class="mb-0 bread">Blog Details</h1>
+       <h1 class="mb-0 bread" th:text="${blog.title}">Blog Details</h1>
      </div>
    </div>
  </div>
@@ -102,18 +97,18 @@
           <div class="tagcloud" >
             <th:block th:each="blogTag : ${blog.blogTags}">
             <a href="#" class="tag-cloud-link" th:inline="text">[[${blogTag.name}]]</a>
-              <th:block>
+              </th:block>
           </div>
         </div>
       </div>
         
         <div class="about-author d-flex p-4 bg-light">
           <div class="bio mr-5">
-            <img src="/images/person_1.jpg" alt="Image placeholder" class="img-fluid mb-4">
+            <img th:src="${blog.user.getAvatar()}" alt="Image placeholder" class="img-fluid mb-4" >
           </div>
           <div class="desc">
-            <h3>George Washington</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus itaque, autem necessitatibus voluptate quod mollitia delectus aut, sunt placeat nam vero culpa sapiente consectetur similique, inventore eos fugit cupiditate numquam!</p>
+            <h3 th:text="${blog.user.getFirstName() + ' ' + blog.user.getLastName()}">George Washington</h3>
+            <p th:text="${blog.user.getBio()}">user bio</p>
           </div>
         </div>
 
@@ -143,7 +138,6 @@
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
                 <p><a href="#" class="reply">Reply</a></p>
               </div>
-
               <ul class="children">
                 <li class="comment">
                   <div class="vcard bio">
@@ -187,7 +181,7 @@
             </li>
           </ul>
           <!-- END comment-list -->
-          
+
           <div class="comment-form-wrap pt-5">
             <h3 class="mb-5" style="font-size: 20px; font-weight: bold;">Leave a comment</h3>
             <form action="#" class="p-5 bg-light">
@@ -230,7 +224,7 @@
           <div class="categories">
             <h3>Categories</h3>
             <th:block th:each="blogCategory : ${blogCategoriesMap.keySet()}" >
-            <li><a href="#" th:inline="text">[[${blogCategory.name}]] <span th:text="${'(' + blogCategoriesMap.get(blogCategory) + ')'}"></span></a></li>
+            <li><a th:href="@{/blogs/searchbycategory(categoryid=${blogCategory.id})}" th:inline="text">[[${blogCategory.name}]] <span th:text="${'(' + blogCategoriesMap.get(blogCategory) + ')'}"></span></a></li>
             </th:block>
           </div>
         </div>
@@ -239,13 +233,13 @@
           <h3>Recent Blog</h3>
           <th:block th:each="recentBlog : ${recentBlogs}">
           <div class="block-21 mb-4 d-flex">
-            <a class="blog-img mr-4" style="background-image: url(images/image_1.jpg);"></a>
+            <a class="blog-img mr-4" th:style="${'background-image : url(' + blog.previewImageURL + ');'}"></a>
             <div class="text">
-              <h3 class="heading" th:text="${recentBlog.title}"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+              <a th:href="@{/blogs/{id}(id=${recentBlog.id})}"><h3 class="heading" th:text="${recentBlog.title}">Even the all-powerful Pointing has no control about the blind texts</h3></a>
               <div class="meta">
-                <div><a href="#" th:inline="text"><span class="fa fa-calendar"></span> [[${recentBlog.createdAt}]]</a></div>
-                <div><a href="#" th:inline="text"><span class="fa fa-user"></span> [[${recentBlog.user.firstName}]]</a></div>
-                <div><a href="#" th:inline="text"><span class="fa fa-comment"></span> [[${recentBlog.views}]]</a></div>
+                <div><a th:href="@{/blogs/searchbydaycreate(createdat=${recentBlog.createdAt})}" th:inline="text"><span class="fa fa-calendar"></span> [[${recentBlog.createdAt}]]</a></div>
+                <div><a th:href="@{/user/profile/{userid}(userid=${recentBlog.user.getId()})}" th:inline="text"><span class="fa fa-user"></span> [[${recentBlog.user.firstName}]]</a></div>
+                <div><a th:href="@{/blogs/{id}(id=${recentBlog.id})}" th:inline="text"><span class="fa fa-comment"></span> [[${recentBlog.views}]]</a></div>
               </div>
             </div>
           </div>
@@ -256,7 +250,7 @@
           <h3>Most popular tag blog</h3>
           <div class="tagcloud">
             <th:block th:each="popularTag : ${popularTags}">
-            <a th:href="@{/blogs(tag=${popularTag.id})}" class="tag-cloud-link" th:inline="text">[[${popularTag.name}]]</a>
+            <a th:href="@{/blogs/searchbytag(tagid=${popularTag.id})}" class="tag-cloud-link" th:inline="text">[[${popularTag.name}]]</a>
             </th:block>
           </div>
         </div>
@@ -268,7 +262,7 @@
       </div>
 
     </div>
-</section> <!-- .section -->	
+</section> <!-- .section -->
 
  <section id="footer"  th:fragment="footer">
    <section class="ftco-intro ftco-section ftco-no-pt">

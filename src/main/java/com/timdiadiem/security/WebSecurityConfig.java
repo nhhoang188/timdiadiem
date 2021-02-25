@@ -1,15 +1,20 @@
 package com.timdiadiem.security;
 
+import com.timdiadiem.model.User;
 import com.timdiadiem.model.UserRole;
 import com.timdiadiem.service.email.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableWebSecurity
@@ -22,12 +27,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/","/register").permitAll().antMatchers("**").permitAll()
-//                .antMatchers("/admin/**").hasRole(UserRole.ADMIN.name())
+                .antMatchers("/","/about","/contact","/css/**", "/js/**", "/images/**").permitAll()
+                .antMatchers("/admin/").hasAnyAuthority(UserRole.ADMIN.name())
+//                .antMatchers("/blogs/add").hasAnyAuthority(UserRole.MEMBER.name(), UserRole.ADMIN.name())
+                .antMatchers("/blogs/**").permitAll()
+                .antMatchers("/booking/showbookingform").hasAnyAuthority(UserRole.MEMBER.name())
+                .antMatchers("/booking/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
-                .formLogin();
+                .formLogin()
+                .loginPage("/login").permitAll().defaultSuccessUrl("/",true)
+                .and().rememberMe().tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(10)).userDetailsService(userService)
+                .and().logout()
+                    .logoutUrl("/logout").logoutRequestMatcher(new AntPathRequestMatcher("/logout","GET"))
+                    .clearAuthentication(true)
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID","remember-me")
+                    .logoutSuccessUrl("/")
+                ;
 
     }
 
@@ -42,4 +60,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setUserDetailsService(userService);
         return provider;
     }
+
 }
