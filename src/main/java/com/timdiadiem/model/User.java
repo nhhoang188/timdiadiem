@@ -30,7 +30,6 @@ public class User implements UserDetails {
     private String email;
     private String phone;
     private String address;
-
 //    private BankAcount bankAcount;
     @Enumerated(EnumType.STRING)
     private UserRole userRole;

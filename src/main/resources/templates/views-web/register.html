@@ -1,71 +1,113 @@
 <!DOCTYPE html>
-<html dir="ltr">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../../static/assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon.png}">
     <title>Matrix Template - The Ultimate Multipurpose admin template</title>
-    <!-- Custom CSS -->
-    <link href="../../static/dist/css/style.min.css" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+
+    <script th:src="@{https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js}"></script>
+    <script th:src="@{https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js}"></script>
 <![endif]-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#registerform').submit(function (event) {
+                var firstName = $('#firstname').val();
+                var lastName = $('#lastname').val();
+                var username = $('#username').val();
+                var password = $('#password').val();
+                var email = $('#email').val();
+                var phone = $('#phone').val();
+                var address = $('#address').val();
+                var json = {"firstName":firstName, "lastName":lastName, "username":username, "password":password, "email":email, "phone":phone, "address":address};
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type : "POST",
+                    data: JSON.stringify(json),
+                    url: "/register",
+                    success: function(data) {
+                        alert("Hello");
+                    },
+                    error: function() {
+                        window.location.replace("/login");
+                    }
+                });
+                event.preventDefault();
+            });
+        });
+    </script>
 </head>
 
 <body>
     <div class="main-wrapper">
-        <!-- ============================================================== -->
-        <!-- Preloader - style you can find in spinners.css -->
-        <!-- ============================================================== -->
+
         <div class="preloader">
             <div class="lds-ripple">
                 <div class="lds-pos"></div>
                 <div class="lds-pos"></div>
             </div>
         </div>
-        <!-- ============================================================== -->
-        <!-- Preloader - style you can find in spinners.css -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Login box.scss -->
-        <!-- ============================================================== -->
         <div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-dark">
             <div class="auth-box bg-dark border-top border-secondary">
                 <div>
                     <div class="text-center p-t-20 p-b-20">
-                        <span class="db"><img src="../../static/assets/images/logo.png" alt="logo" /></span>
+
+                        <div id="FromResponse"></div>
                     </div>
                     <!-- Form -->
-                    <form class="form-horizontal m-t-20" action="index.html">
+                    <form class="form-horizontal m-t-20"  id="registerform" th:object="${registeruser}">
                         <div class="row p-b-30">
                             <div class="col-12">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text bg-success text-white" id="basic-addon1"><i class="ti-user"></i></span>
+                                        <span class="input-group-text bg-success text-white"><i class="ti-user"></i></span>
                                     </div>
-                                    <input type="text" class="form-control form-control-lg" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required>
-                                </div>
-                                <!-- email -->
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-danger text-white" id="basic-addon1"><i class="ti-email"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control form-control-lg" placeholder="Email Address" aria-label="Username" aria-describedby="basic-addon1" required>
+                                    <input name="username" th:field="*{username}" id="username" type="text" class="form-control form-control-lg" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required>
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text bg-warning text-white" id="basic-addon2"><i class="ti-pencil"></i></span>
+                                        <span class="input-group-text bg-danger text-white" ><i class="ti-email"></i></span>
                                     </div>
-                                    <input type="text" class="form-control form-control-lg" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required>
+                                    <input name="email" th:field="*{email}" id="email" type="text" class="form-control form-control-lg" placeholder="Email Address" aria-label="Username" aria-describedby="basic-addon1" required>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-danger text-white" id="basic-addon"><i class="ti-pencil"></i></span>
+                                    </div>
+                                    <input name="firstName" th:field="*{firstName}" id="firstname" type="text" class="form-control form-control-lg" placeholder="First Name" aria-label="firstName" aria-describedby="basic-addon1" required>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-danger text-white" id="basic-addon1"><i class="ti-pencil"></i></span>
+                                    </div>
+                                    <input name="lastName" th:field="*{lastName}" id="lastname" type="text" class="form-control form-control-lg" placeholder="Last Name" aria-label="lastName" aria-describedby="basic-addon1" required>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-danger text-white" ><i class="ti-pencil"></i></span>
+                                    </div>
+                                    <input  name="phone" th:field="*{phone}" id="phone" type="text" class="form-control form-control-lg" placeholder="Phone" aria-label="phone" aria-describedby="basic-addon1" required>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-danger text-white" ><i class="ti-pencil"></i></span>
+                                    </div>
+                                    <input name="address" th:field="*{address}" id="address" type="text" class="form-control form-control-lg" placeholder="Address" aria-label="address" aria-describedby="basic-addon1" required>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-warning text-white" id="basic-addon3"><i class="ti-pencil"></i></span>
+                                    </div>
+                                    <input name="password" th:field="*{password}" id="password" type="text" class="form-control form-control-lg" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required>
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
@@ -88,32 +130,13 @@
                 </div>
             </div>
         </div>
-        <!-- ============================================================== -->
-        <!-- Login box.scss -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page wrapper scss in scafholding.scss -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page wrapper scss in scafholding.scss -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Right Sidebar -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Right Sidebar -->
-        <!-- ============================================================== -->
+
     </div>
-    <!-- ============================================================== -->
-    <!-- All Required js -->
-    <!-- ============================================================== -->
-    <script src="../../static/assets/libs/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap tether Core JavaScript -->
-    <script src="../../static/assets/libs/popper.js/dist/umd/popper.min.js"></script>
-    <script src="../../static/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- ============================================================== -->
-    <!-- This page plugin js -->
-    <!-- ============================================================== -->
+    <script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+
+    <script th:src="@{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+    <script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+
     <script>
     $('[data-toggle="tooltip"]').tooltip();
     $(".preloader").fadeOut();

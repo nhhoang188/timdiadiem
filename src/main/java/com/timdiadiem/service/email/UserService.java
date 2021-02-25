@@ -54,8 +54,18 @@ public class UserService implements UserDetailsService,iUserService {
     }
 
     @Override
-    public int enableUser(String email){
-        return userRepository.enableUser(email);
+    public List<User> findByEnabledIsFalse() {
+        return userRepository.findAllByEnabledIsFalse();
+    }
+
+    @Override
+    public int enableUserByEmail(String email){
+        return userRepository.enableUserByEmail(email);
+    }
+
+    @Override
+    public int enableUser(Long id) {
+        return userRepository.enableUser(id);
     }
 
     @Override
@@ -83,6 +93,10 @@ public class UserService implements UserDetailsService,iUserService {
          userRepository.deleteById(id);
     }
 
+    @Override
+    public Optional<User> findByid(Long id) {
+        return userRepository.findById(id);
+    }
 
 
 }

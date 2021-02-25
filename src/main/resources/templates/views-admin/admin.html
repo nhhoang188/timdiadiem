@@ -147,70 +147,19 @@
     <div class="page-breadcrumb">
         <div class="row">
             <div class="col-12 d-flex no-block align-items-center">
-                <h4 class="page-title">Tables</h4>
-                <div class="ml-auto text-right">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Library</li>
-                        </ol>
-                    </nav>
-                </div>
+                <h2 class="page-title">Thói quen tốt buổi sáng sẽ giúp bạn hạnh phúc và năng suất cả ngày!</h2>
             </div>
         </div>
     </div>
+
 
     <div class="container-fluid">
 
         <div class="row">
-            <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive">
-
-                        <table id="zero_config" class="table table-striped table-bordered">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th></th>
-                                <th>Tên Khách Sạn</th>
-                                <th>Địa Chỉ</th>
-                                <th>Quản Lý Phòng</th>
-                                <th>Tiện ích</th>
-                                <th>Thông tin đầy đủ</th>
-                                <th>Thông tin mô tả</th>
-                                <th>Link Ảnh Hiển Thị</th>
-                                <th>Link Ảnh Mô Tả</th>
-                                <th>Link Ảnh Mô Tả</th>
-                                <th>Link Ảnh Đặt Phòng</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="item : ${hotel}">
-                                <td><a href="/">Edit</a></td>
-                                <td><a href="/">Delete</a></td>
-                                <td th:text="${item.getName()}"></td>
-                                <td th:text="${item.getAddress()}"></td>
-                                <td><a href="/">Danh Sách Phòng</a></td>
-                                <td th:text="${item.getConvenient()}"></td>
-                                <td th:text="${item.getFullDescription()}"></td>
-                                <td th:text="${item.getSortDescription()}"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <div>
-                            <a th:href="@{'/admin/edit-hotel'(page=${listHotel.number - 1})}"
-                               th:if="${listHotel.hasPrevious()}">Previous</a>
-                            <span th:text="${listHotel.number + 1}"></span>/<span
-                                th:text="${listHotel.totalPages}"></span>
-                            <a th:href="@{'/admin/edit-hotel'(page=${listHotel.number + 1})}"
-                               th:if="${listHotel.hasNext()}">Next</a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+            <h5 class="notify" th:object="${notification}">Đang có <a href="/admin/edit-user/browsing" th:text="${notification.size()}" ></a> user mới chờ duyệt. </h5>
         </div>
     </div>
+
 
 </div>
 

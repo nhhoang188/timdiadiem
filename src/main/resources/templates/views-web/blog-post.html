@@ -7,27 +7,60 @@
     <script src="https://cdn.tiny.cloud/1/hmoowes6yb7myn4ec1ilxxz6xmnp61nz6vv5l08jmp46iyfk/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
-            selector: '#mytextarea'
+            selector: '#content'
         });
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
-
-</head>
-<body>
-<form method="post" action="/blogs/add">
-    <input type="text" name="title" placeholder="Blog title">
-    <textarea id="mytextarea" name="content"></textarea>
-    <select name="blogCategory" >
-        <option th:each="blogcategory : ${blogCategories}"
-                th:value="${blogcategory.id}"
-                th:text="${blogcategory.name}">
-        </option>
-    </select>
-    <input type="text" value="html,input,tag" data-role="tagsinput" name="blogTags">
-    <button type="submit">Post</button>
-</form>
-</body>
-</html>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#addBlogForm').submit(function (event) {
+                    var title = $('#title').val();
+                    var previewDescription = $('#previewDescription').val();
+                    var previewImageURL = $('#previewImageURL').val();
+                    var content = $('#content_ifr').html();
+                    // var blogCategory = $('#blogCategory').val();
+                    console.log(content)
+                    var blogTags = $('#blogTags').val();
+                    var json = {"title":title, "previewDescription":previewDescription, "previewImageURL":previewImageURL, "content":content, "blogCategory":1, "blogTags":blogTags};
+                    $.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        type : "POST",
+                        data: JSON.stringify(json),
+                        url: "/blogs/add",
+                        success: function(data) {
+                            alert("success")
+                        },
+                        error: function() {
+                            window.location.replace("/blogs");
+                        }
+                    });
+                    event.preventDefault();
+                });
+            });
+        </script>
+        </head>
+        <body>
+        <form method="post" action="/blogs/add" id="addBlogForm">
+            <input type="text" name="title" placeholder="Blog title" id="title">
+            <input type="text" name="previewImageURL" id="previewImageURL" placeholder="Preview Image URL">
+            <input type="text" name="previewDescription" id="previewDescription" placeholder="Preview Description">
+            <textarea id="content" name="content" ></textarea>
+<!--            <select name="blogCategory" id="blogCategory">-->
+<!--                <option th:each="blogcategory : ${blogCategories}"-->
+<!--                        th:value="${blogcategory.id}"-->
+<!--                        th:text="${blogcategory.name}">-->
+<!--                </option>-->
+<!--            </select>-->
+            <input type="text" value="html,input,tag" data-role="tagsinput" name="blogTags" id="blogTags">
+            <button type="submit">Post</button>
+        </form>
+        </body>
+        </html>

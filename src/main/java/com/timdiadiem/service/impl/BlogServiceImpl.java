@@ -37,8 +37,8 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public void saveBlog(BlogAddRequest blogAddRequest){
         Blog blog = new Blog();
-        //        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        blog.setUser(user);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        blog.setUser(user);
         blog.setCreatedAt(LocalDate.now());
         blog.setBlogCategory(blogAddRequest.getBlogCategory());
         blog.setTitle(blogAddRequest.getTitle());

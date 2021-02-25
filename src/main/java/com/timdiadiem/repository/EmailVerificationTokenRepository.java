@@ -12,10 +12,10 @@ import java.util.Optional;
 
 @Repository
 @Transactional
-public interface EmailVerificationTokenRepository extends JpaRepository<EmailVerificationToken,Long> {
-    public Optional<EmailVerificationToken> findByToken(String token);
+public interface EmailVerificationTokenRepository extends JpaRepository<EmailVerificationToken, Long> {
+    Optional<EmailVerificationToken> findByToken(String token);
 
     @Modifying
     @Query("UPDATE EmailVerificationToken a SET a.verifiedAt = ?1 WHERE a.token = ?2")
-    public int updateVerifiedAt(LocalDateTime now, String token);
+    int updateVerifiedAt(LocalDateTime now, String token);
 }

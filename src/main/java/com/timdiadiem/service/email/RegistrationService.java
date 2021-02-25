@@ -55,7 +55,7 @@ public class RegistrationService implements iRegistrationService{
 
         emailVerificationTokenService.verifyToken(token);
 
-        userService.enableUser(verificationToken.getUser().getEmail());
+        userService.enableUserByEmail(verificationToken.getUser().getEmail());
 
         return "verified";
     }

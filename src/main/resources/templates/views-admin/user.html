@@ -141,7 +141,6 @@
 
 <body>
 
-
 <div class="page-wrapper">
 
     <div class="page-breadcrumb">
@@ -172,39 +171,41 @@
                             <tr>
                                 <th></th>
                                 <th></th>
-                                <th>Tên Khách Sạn</th>
-                                <th>Địa Chỉ</th>
-                                <th>Quản Lý Phòng</th>
-                                <th>Tiện ích</th>
-                                <th>Thông tin đầy đủ</th>
-                                <th>Thông tin mô tả</th>
-                                <th>Link Ảnh Hiển Thị</th>
-                                <th>Link Ảnh Mô Tả</th>
-                                <th>Link Ảnh Mô Tả</th>
-                                <th>Link Ảnh Đặt Phòng</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>User name</th>
+                                <th>Status</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Address</th>
+                                <th>userRole/th>
+                                <th>Status</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="item : ${hotel}">
+                            <tr th:each="item : ${listUser}">
                                 <td><a href="/">Edit</a></td>
                                 <td><a href="/">Delete</a></td>
-                                <td th:text="${item.getName()}"></td>
+                                <td th:text="${item.getFirstName()}"></td>
+                                <td th:text="${item.getLastName()}"></td>
+                                <td th:text="${item.getUsername()}"></td>
+                                <td th:text="${item.isEnabled()}"></td>
+                                <td th:text="${item.getEmail()}"></td>
+                                <td th:text="${item.getPhone()}"></td>
                                 <td th:text="${item.getAddress()}"></td>
-                                <td><a href="/">Danh Sách Phòng</a></td>
-                                <td th:text="${item.getConvenient()}"></td>
-                                <td th:text="${item.getFullDescription()}"></td>
-                                <td th:text="${item.getSortDescription()}"></td>
+                                <td th:text="${item.getUserRole()}"></td>
+
                             </tr>
                             </tbody>
                         </table>
-                        <div>
-                            <a th:href="@{'/admin/edit-hotel'(page=${listHotel.number - 1})}"
-                               th:if="${listHotel.hasPrevious()}">Previous</a>
-                            <span th:text="${listHotel.number + 1}"></span>/<span
-                                th:text="${listHotel.totalPages}"></span>
-                            <a th:href="@{'/admin/edit-hotel'(page=${listHotel.number + 1})}"
-                               th:if="${listHotel.hasNext()}">Next</a>
-                        </div>
+<!--                        <div>-->
+<!--                            <a th:href="@{'/admin/edit-hotel'(page=${listHotel.number - 1})}"-->
+<!--                               th:if="${listHotel.hasPrevious()}">Previous</a>-->
+<!--                            <span th:text="${listHotel.number + 1}"></span>/<span-->
+<!--                                th:text="${listHotel.totalPages}"></span>-->
+<!--                            <a th:href="@{'/admin/edit-hotel'(page=${listHotel.number + 1})}"-->
+<!--                               th:if="${listHotel.hasNext()}">Next</a>-->
+<!--                        </div>-->
                     </div>
 
                 </div>
@@ -213,6 +214,8 @@
     </div>
 
 </div>
+
+
 
 
 <script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>

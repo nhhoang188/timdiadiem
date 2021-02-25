@@ -10,8 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/profile")
 public class UserController {
-    @GetMapping("/{userID}")
-    public ModelAndView showUserInfo(@PathVariable Long userID){
-        return new ModelAndView("");
-    }
+//    @GetMapping("/{userID}")
+//    public ModelAndView showUserInfo(@PathVariable Long userID){
+//
+//    }
 }
