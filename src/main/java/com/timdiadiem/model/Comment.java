@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -18,9 +15,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Comment {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
     private LocalDateTime timeComment;
 
     @NotBlank
@@ -28,7 +25,6 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @NotNull
     private User user;
 
     @ManyToOne
