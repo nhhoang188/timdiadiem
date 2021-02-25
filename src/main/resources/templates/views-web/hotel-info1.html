@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/booking/showbookingform" method="get">
+    <input type="text" name="roomid" th:value="${hotel.getId()}">
+    <input type="submit" value="BOOK NOW" class="btn py-3 px-4 btn-primary">
+</form>
+</body>
+</html>

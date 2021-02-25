@@ -45,23 +45,27 @@ public class BookingController {
     return modelAndView;
     }
     @GetMapping("/checkavailability")
-    public ModelAndView isBookingAvailable(@RequestParam(name = "roomid") String roomid, @RequestParam(name = "startdate")String startdate,@RequestParam(name="enddate")String enddate,@RequestParam("totalprice") Double totalprice) throws Exception{
-        ModelAndView modelAndView= null;
+    public ModelAndView isBookingAvailable(@RequestParam(name = "roomid") String roomid, @RequestParam(name = "startdate")String startdate,@RequestParam(name="enddate")String enddate,@RequestParam("totalprice") String totalprice) throws Exception{
+        ModelAndView modelAndView= new ModelAndView();
         boolean isAvailable = true;
         Long roomid1 = Long.parseLong(roomid);
+        Double totalprice1 = Double.parseDouble(totalprice);
         Date datestart=new SimpleDateFormat("yyyy-MM-dd").parse(startdate);
         Date dateend = new SimpleDateFormat("yyyy-MM-dd").parse(enddate);
        isAvailable= bookingService.isAvailable(roomid1,datestart,dateend);
         if(isAvailable == false){
             String message ="Room not available on dates which you chose. Please choose again";
-            modelAndView = new ModelAndView("/views-web/bookingform","message",message);
+            modelAndView.setViewName("/views-web/bookingform");
+            modelAndView.addObject("message",message);
+            Room room = roomService.findById(roomid1).orElse(null);
+            modelAndView.addObject("room",room);
             return modelAndView;
         }else {
             Room room = roomService.findById(roomid1).orElse(null);
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            Booking booking = new Booking(datestart,dateend,totalprice,user,room);
+            Booking booking = new Booking(datestart,dateend,totalprice1,user,room);
             bookingService.save(booking);
-            modelAndView = new ModelAndView("/views-web/bookingsuccess");
+            modelAndView.setViewName("/views-web/bookingsuccess");
             return modelAndView;
         }
     }

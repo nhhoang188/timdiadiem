@@ -34,8 +34,8 @@ public class HotelController {
     }
     @GetMapping("/{id}")
     public ModelAndView hotel(@PathVariable Long id, Principal principal) {
-        ModelAndView modelAndView = new ModelAndView("/views-web/hotel-info");
-        modelAndView.addObject("hotel", hotelService.findById(id));
+        ModelAndView modelAndView = new ModelAndView("/views-web/hotel-info1");
+        modelAndView.addObject("hotel", hotelService.findById(id).orElse(null));
         if (principal != null){
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             modelAndView.addObject( "user", user);
