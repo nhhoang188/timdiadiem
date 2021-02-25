@@ -17,12 +17,20 @@
         <form method="get" action="/booking/checkavailability">
             <div class="form-group">
                 <span class="form-label">Room id</span>
-                <input class="form-control" id="roomid" type="text" name="roomid"  th:value="${room.getId()}" >
+                <select  id="roomidselect" onchange="setRoomPrice(this)">
+                    <option th:each="room: ${roomMap}"
+                            th:value="${room['value']}"
+                            th:text="${room['key']}"
+                </select>
             </div>
+            <input hidden type="text" id="roomid" name="roomid">
+            <br>
+            <br>
 
             <div class="form-group">
                 <span class="form-label">Price per one night</span>
-                <input class="form-control" id="roomprice" type="text" disabled th:value="${room.getPrice()}" >
+                <br>
+                <input class="form-control" id="roomprice" type="text" disabled >
             </div>
 
             <div class="row">
@@ -93,6 +101,16 @@
 
 </body>
 <script>
+    let roomprice = 0;
+
+
+    setRoomPrice();
+    function setRoomPrice(element) {
+       roomprice= document.getElementById("roomidselect").value;
+        document.getElementById("roomprice").value = roomprice;
+        let roomid = parseInt(element.options[element.selectedIndex].text);
+        document.getElementById("roomid").value = roomid;
+    }
     function checkvaliddate() {
         let startdate = document.getElementById("startdate").value;
         let enddate = document.getElementById("enddate").value;

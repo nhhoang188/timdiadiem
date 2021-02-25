@@ -15,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("/booking")
@@ -37,11 +39,16 @@ public class BookingController {
         return modelAndView;
     }
     @GetMapping("/showbookingform")
-    public ModelAndView showBookingForm(@RequestParam(name = "roomid") Long roomid){
-    Room room = roomService.findById(roomid).orElse(null);
+    public ModelAndView showBookingForm(@RequestParam(name = "roomid") String hotelidstring){
+        Long hotelid=Long.parseLong(hotelidstring);
+    List<Room> roomList=roomService.findAllByHotel(hotelid);
+        HashMap<Long,Double> roomMap = new HashMap<>();
+        for (int i = 0; i < roomList.size(); i++) {
+            roomMap.put(roomList.get(i).getId(),roomList.get(i).getPrice());
+        }
     ModelAndView modelAndView = new ModelAndView("/views-web/bookingform");
 //    modelAndView.addObject("user",user1);
-    modelAndView.addObject("room",room);
+    modelAndView.addObject("roomMap",roomMap);
     return modelAndView;
     }
     @GetMapping("/checkavailability")
