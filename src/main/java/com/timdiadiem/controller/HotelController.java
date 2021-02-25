@@ -7,8 +7,6 @@ import com.timdiadiem.service.email.UserService;
 import com.timdiadiem.service.pkInterface.CommentService;
 import com.timdiadiem.service.pkInterface.ConvenientService;
 import com.timdiadiem.service.pkInterface.HotelService;
-import java.security.Principal;
-
 import com.timdiadiem.service.pkInterface.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +16,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/hotels")
@@ -32,12 +33,27 @@ public class HotelController {
     ConvenientService convenientService;
     @Autowired
     RoomService roomService;
+
     @GetMapping
-    public ModelAndView hotel(@PageableDefault(size = 3) Pageable pageable) {
-        Page<Hotel> hotels = hotelService.findAll(pageable);
-        return new ModelAndView("/views-web/listhotel","hotels",hotels);
+    public ModelAndView hotel(@PageableDefault(size = 3) Pageable pageable, @RequestParam("name") Optional<String> name, @RequestParam("price") Optional<Double> price) {
+        Page<Hotel> hotels;
+        boolean search =name.isPresent() && price.isPresent();
+        if (search && !name.get().equals("")){
+            hotels = hotelService.findHotelByNameAndPriceContaining(name.get(), price.get(), pageable);
+        }
+        else if (search) {
+            hotels = hotelService.findAllByNamePriceContaining(price.get(), pageable);
+        }  else if (name.isPresent()){
+            hotels = hotelService.findAllByNameContaining(name.get(), pageable);
+        } else {
+            hotels = hotelService.findAll(pageable);
+        }
+        ModelAndView modelAndView = new ModelAndView("views-web/listhotel");
+        modelAndView.addObject("hotels", hotels);
+        return modelAndView;
 
     }
+
     @GetMapping("/{id}")
     public ModelAndView hotel(@PathVariable Long id, Principal principal) {
         ModelAndView modelAndView = new ModelAndView("/views-web/hotel-info");
@@ -45,9 +61,9 @@ public class HotelController {
         modelAndView.addObject("listcomment", commentService.findCommentByHotelId(id));
         modelAndView.addObject("listconvenient", convenientService.findConvenientByHotelId(id));
         modelAndView.addObject("comment", new Comment());
-        if (principal != null){
+        if (principal != null) {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            modelAndView.addObject( "user", user);
+            modelAndView.addObject("user", user);
         }
         return modelAndView;
     }

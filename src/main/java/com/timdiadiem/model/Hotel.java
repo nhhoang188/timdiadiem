@@ -22,6 +22,7 @@ public class Hotel {
     @Column(name = "fulldescription")
     private String fullDescription;
     private String convenient;
+    private Double price;
     private String img1;
     private String img2;
     private String img3;

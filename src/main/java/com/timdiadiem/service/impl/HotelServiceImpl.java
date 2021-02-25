@@ -39,4 +39,24 @@ public class HotelServiceImpl implements HotelService {
     public void deleteById(Long id) {
         hotelRepository.deleteById(id);
     }
+
+    @Override
+    public Page<Hotel> findAllByNameContaining(String name, Pageable pageable) {
+        return hotelRepository.findAllByNameContaining(name,pageable);
+    }
+
+    @Override
+    public Page<Hotel> findAllByNamePriceContaining(Double price, Pageable pageable) {
+        return hotelRepository.findAllByPrice(price,pageable);
+    }
+
+    @Override
+    public Page<Hotel> findHotelByPriceLessThanEqual(Double price, Pageable pageable) {
+        return hotelRepository.findHotelByPriceLessThanEqual(price,pageable);
+    }
+
+    @Override
+    public Page<Hotel> findHotelByNameAndPriceContaining(String name, Double price, Pageable pageable) {
+        return hotelRepository.findHotelByNameAndPrice(name,price,pageable);
+    }
 }
