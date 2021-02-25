@@ -27,25 +27,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/","/about","/contact","/css/**", "/js/**", "/images/**").permitAll()
-                .antMatchers("/admin/").hasAnyAuthority(UserRole.ADMIN.name())
-//                .antMatchers("/blogs/add").hasAnyAuthority(UserRole.MEMBER.name(), UserRole.ADMIN.name())
+                .antMatchers("/","/about","/contact","/css/**", "/js/**", "/images/**","/hotels/**","/tours/**").permitAll()
+                .antMatchers("/blogs/add").hasAnyAuthority(UserRole.MEMBER.name(), UserRole.ADMIN.name())
                 .antMatchers("/blogs/**").permitAll()
-                .antMatchers("/booking/showbookingform").hasAnyAuthority(UserRole.MEMBER.name())
+                .antMatchers("/booking/showbookingform","/booking/checkavailability").hasAnyAuthority(UserRole.MEMBER.name(), UserRole.ADMIN.name())
                 .antMatchers("/booking/**").permitAll()
-                .anyRequest()
-                .authenticated()
+                .antMatchers("/admin/").hasAuthority(UserRole.ADMIN.name()).anyRequest().hasAuthority("ADMIN")
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll().defaultSuccessUrl("/",true)
                 .and().rememberMe().tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(10)).userDetailsService(userService)
                 .and().logout()
-                    .logoutUrl("/logout").logoutRequestMatcher(new AntPathRequestMatcher("/logout","GET"))
-                    .clearAuthentication(true)
-                    .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID","remember-me")
-                    .logoutSuccessUrl("/")
-                ;
+                .logoutUrl("/logout").logoutRequestMatcher(new AntPathRequestMatcher("/logout","GET"))
+                .clearAuthentication(true)
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID","remember-me")
+                .logoutSuccessUrl("/")
+        ;
 
     }
 

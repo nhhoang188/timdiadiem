@@ -1,6 +1,8 @@
 package com.timdiadiem.controller;
 
+import com.timdiadiem.model.Blog;
 import com.timdiadiem.model.Comment;
+import com.timdiadiem.model.Hotel;
 import com.timdiadiem.model.User;
 import com.timdiadiem.service.impl.BlogAddRequest;
 import com.timdiadiem.service.pkInterface.BlogCategoryService;
@@ -8,6 +10,7 @@ import com.timdiadiem.service.pkInterface.BlogService;
 import com.timdiadiem.service.pkInterface.BlogTagService;
 import com.timdiadiem.service.pkInterface.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/blogs")
@@ -33,8 +37,16 @@ public class BlogController {
     CommentService commentService;
 
     @GetMapping
-    public ModelAndView showBlogsPage(@PageableDefault(size = 6) Pageable pageable) {
-        return new ModelAndView("/views-web/blog", "listBlogs", blogService.findAll(pageable));
+    public ModelAndView showBlogsPage(@PageableDefault(size = 3) Pageable pageable, @RequestParam("name") Optional<String> name) {
+        Page<Blog> blogs;
+        if (name.isPresent()){
+            blogs = blogService.findAllByTitleContaining(name.get(), pageable);
+        } else {
+            blogs = blogService.findAll(pageable);
+        }
+        ModelAndView modelAndView = new ModelAndView("/views-web/blog");
+        modelAndView.addObject("listBlogs", blogs);
+        return modelAndView;
     }
 
     @GetMapping("/searchbytag")

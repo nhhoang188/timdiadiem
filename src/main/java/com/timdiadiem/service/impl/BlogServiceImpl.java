@@ -93,6 +93,11 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    public Page<Blog> findAllByTitleContaining(String tile, Pageable pageable) {
+        return blogRepository.findAllByTitleContaining(tile,pageable);
+    }
+
+    @Override
     public List<Blog> findByCategory(Long categoryId) {
         return blogRepository.findAllByBlogCategoryOrderByViewsDesc(categoryId);
     }

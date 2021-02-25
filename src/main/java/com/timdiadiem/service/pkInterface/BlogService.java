@@ -25,5 +25,7 @@ public interface BlogService {
     Page<Blog> findAll(Pageable pageable);
     List<Blog> findAllByTitle(String title);
     void view(Long id);
+    Page<Blog> findAllByTitleContaining(String tile, Pageable pageable);
+
 
 }

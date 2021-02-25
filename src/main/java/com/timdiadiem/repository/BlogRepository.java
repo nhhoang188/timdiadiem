@@ -42,4 +42,5 @@ public interface BlogRepository extends JpaRepository<Blog, Long> {
     List<Blog> findAllByCreatedAtOrderByViewsDesc(LocalDate createdAt);
 
     List<Blog> findAllByBlogCategoryOrderByViewsDesc(Long categoryId);
+    Page<Blog> findAllByTitleContaining(String tile, Pageable pageable);
 }
