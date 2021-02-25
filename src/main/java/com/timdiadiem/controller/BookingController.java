@@ -1,6 +1,8 @@
 package com.timdiadiem.controller;
 
-import com.timdiadiem.model.*;
+import com.timdiadiem.model.Booking;
+import com.timdiadiem.model.Room;
+import com.timdiadiem.model.User;
 import com.timdiadiem.service.email.UserService;
 import com.timdiadiem.service.impl.BankAcountServiceImpl;
 import com.timdiadiem.service.impl.BookingServiceImpl;
@@ -19,17 +21,14 @@ import java.util.Date;
 @RestController
 @RequestMapping("/booking")
 public class BookingController {
-    private RoomServiceImpl roomService;
-    private BookingServiceImpl bookingService;
-    private BankAcountServiceImpl bankAcountService;
-    private UserService userService;
     @Autowired
-    public BookingController(RoomServiceImpl roomService, BookingServiceImpl bookingService, BankAcountServiceImpl bankAcountService, UserService userService) {
-        this.roomService = roomService;
-        this.bookingService = bookingService;
-        this.bankAcountService = bankAcountService;
-        this.userService = userService;
-    }
+    RoomServiceImpl roomService;
+    @Autowired
+     BookingServiceImpl bookingService;
+    @Autowired
+    BankAcountServiceImpl bankAcountService;
+    @Autowired
+    UserService userService;
 
     @GetMapping("/getuserandroom")
     public ModelAndView showFormGetRoomandUser(){

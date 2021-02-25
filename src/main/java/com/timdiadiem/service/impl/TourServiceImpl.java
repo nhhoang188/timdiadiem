@@ -39,4 +39,29 @@ public class TourServiceImpl implements TourService {
     public void deleteById(Long id) {
         tourRepository.deleteById(id);
     }
+
+    @Override
+    public Page<Tour> findAllByNameContaining(String name, Pageable pageable) {
+        return tourRepository.findAllByNameContaining(name,pageable);
+    }
+
+    @Override
+    public Page<Tour> findAllByPrice(Double price, Pageable pageable) {
+        return tourRepository.findAllByPrice(price,pageable);
+    }
+
+    @Override
+    public Page<Tour> findTourByPriceLessThanEqual(Double price, Pageable pageable) {
+        return tourRepository.findTourByPriceLessThanEqual(price,pageable);
+    }
+
+    @Override
+    public Page<Tour> findTourByNameAndPriceLessThanEqual(String name, Double price, Pageable pageable) {
+        return tourRepository.findTourByNameAndPriceLessThanEqual(name,price,pageable);
+    }
+
+    @Override
+    public Page<Tour> findTourByNameAndPrice(String name, Double price, Pageable pageable) {
+        return tourRepository.findTourByNameAndPrice(name,price,pageable);
+    }
 }

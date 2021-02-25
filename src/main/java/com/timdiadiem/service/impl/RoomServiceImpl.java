@@ -39,4 +39,9 @@ public class RoomServiceImpl implements RoomService {
     public void deleteById(Long id) {
         roomRepository.deleteById(id);
     }
+
+    @Override
+    public Iterable<Room> findRoomByHotelId(Long id) {
+        return roomRepository.findRoomByHotelId(id);
+    }
 }

@@ -1,5 +1,6 @@
 package com.timdiadiem.controller;
 
+import com.timdiadiem.model.Hotel;
 import com.timdiadiem.model.User;
 import com.timdiadiem.service.email.UserService;
 import com.timdiadiem.service.pkInterface.HotelService;
@@ -8,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -32,6 +30,10 @@ public class AdminController {
     @GetMapping("/edit-hotel")
     public ModelAndView editHotel(@PageableDefault(size = 2) Pageable pageable) {
         return new ModelAndView("views-admin/hotel", "listHotel", hotelService.findAll(pageable));
+    }
+    @GetMapping("/edit-hotel/{id}")
+    public ModelAndView edit(@PathVariable("id") Hotel hotel) {
+        return new ModelAndView("views-admin/hotel-edit", "hotel", hotelService.findById(hotel.getId()));
     }
 
     @GetMapping("/edit-tour")
