@@ -54,7 +54,7 @@ public class BookingServiceImpl implements BookingService {
             enddatelist.add(bookingList.get(i).getEndDate());
         }
         for (int i = 0; i < bookingList.size(); i++) {
-            if(enddate.before(startdatelist.get(i))||startdate.after(enddatelist.get(i))){
+            if((enddate.before(startdatelist.get(i))==true)||(startdate.after(enddatelist.get(i)))==true){
                 isAvailable=true;
             }else {
                 isAvailable = false;

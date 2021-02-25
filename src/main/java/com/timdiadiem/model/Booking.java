@@ -33,6 +33,14 @@ public class Booking {
         this.room = room;
     }
 
+    public Booking(Date startDate, Date endDate, Double totalPrice, User user, Room room) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.totalPrice = totalPrice;
+        this.user = user;
+        this.room = room;
+    }
+
     public Long getId() {
         return id;
     }

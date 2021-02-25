@@ -77,6 +77,13 @@
         <p th:text="${hotel.get().getFullDescription()}"></p>
         <p>
           <img src="/images/bg_5.jpg" alt="" class="img-fluid">
+          <div>
+        <form action="/booking/checkavailability" method="get">
+          <input type="text" name="roomid" th:value="${hotel.getId()}">
+          <input type="submit" value="BOOK NOW" class="btn py-3 px-4 btn-primary">
+        </form>
+        
+      </div>
         </p>
         <div class="pt-5 mt-5">
           <h3 class="mb-5" style="font-size: 20px; font-weight: bold;">Comments</h3>

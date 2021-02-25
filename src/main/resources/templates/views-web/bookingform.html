@@ -4,51 +4,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link type="text/css" rel="stylesheet" href="static/css/bootstrap/bootstrap.bookingform.css" />
-    <link type="text/css" rel="stylesheet" href="static/css/bootstrap/style.bookingform.css" />
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <script>
-        function setMin() {
-            let date = new Date();
-            let today = date.getFullYear() + '-' +
-                ('0' + (date.getMonth()+1)).slice(-2) + '-' +
-                ('0' + date.getDate()).slice(-2);
-            console.log(today)
-            document.getElementById("startdate").min = today;
-        }
-        setMin();
-        function calculate() {
-            let startdate = document.getElementById("startdate").value;
-            let enddate = document.getElementById("enddate").value;
-            let datestart = new Date(startdate);
-            let dateend = new Date(enddate);
-            let offset = dateend.getTime() - datestart.getTime();
-            let difdays = Math.round(offset/1000/60/60/24)
-            console.log(difdays);
-        }
-    </script>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/bootstrap/bootstrap.bookingform.css}" />
+    <link type="text/css" rel="stylesheet" th:href="@{/css/bootstrap/style.bookingform.css}" />
+<!--    <script th:src="@{https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js}"></script>-->
+<!--    <script th:src="@{https://oss.maxcdn.com/respond/1.4.2/respond.min.js}"></script>-->
+<!--    <script>-->
+
+
 </head>
 <body>
-<div class="col-md-4 col-md-pull-7">
     <div class="booking-form">
         <form method="get" action="/booking/checkavailability">
             <div class="form-group">
-                <span class="form-label">Room Id</span>
-                <input class="form-control" name="roomid" type="text" th:value="${room.getId()}">
+                <span class="form-label">Room id</span>
+                <input class="form-control" id="roomid" type="text" name="roomid"  th:value="${room.getId()}" >
             </div>
+
+            <div class="form-group">
+                <span class="form-label">Price per one night</span>
+                <input class="form-control" id="roomprice" type="text" disabled th:value="${room.getPrice()}" >
+            </div>
+
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
                         <span class="form-label">Check In</span>
-                        <input class="form-control" type="date" onchange="calculate()" name="startdate" min="2021-02-22" id="startdate" required>
+                        <input class="form-control" type="date" onchange="checkvaliddate()" name="startdate" id="startdate" required>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
                         <span class="form-label">Check out</span>
-                        <input class="form-control" id="enddate" name="enddate" onchange="calculate()" type="date" required>
+                        <input class="form-control" id="enddate" name="enddate" onchange="checkvaliddate()" type="date" required>
                     </div>
+                </div>
+                <div class="col-sm-6">
+                    <span style="visibility: hidden" id="choosedatemessage" class="form-label">message</span>
                 </div>
             </div>
             <div class="row">
@@ -86,14 +77,61 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <p id="totalprice"></p>
+            <div class="form-group">
+                <span class="form-label">Total price</span>
+                <input class="form-control"id="totalprice" type="text" style="visibility: hidden" >
+            </div>
+            <div class="form-group" th:if="${message}">
+                <span class="form-label" th:text="${message}"></span>
+
             </div>
             <div class="form-btn">
                 <button class="submit-btn">Check availability</button>
             </div>
         </form>
     </div>
-</div>
+
 </body>
+<script>
+    function checkvaliddate() {
+        let startdate = document.getElementById("startdate").value;
+        let enddate = document.getElementById("enddate").value;
+        if(enddate === ""||startdate===""){
+            return ;
+        }
+        if (enddate <= startdate) {
+            document.getElementById("choosedatemessage").innerHTML = "Your date is not valid. Please choose again";
+            document.getElementById("choosedatemessage").style = "visibility: visible";
+            document.getElementById("enddate").value = null;
+            document.getElementById("startdate").value = null;
+            document.getElementById("totalprice").style = "visibility: hidden";
+
+            return ;
+        } else {
+            document.getElementById("choosedatemessage").style = "visibility: hidden";
+            let datestart = new Date(startdate);
+            let dateend = new Date(enddate);
+            let offset = dateend.getTime() - datestart.getTime();
+            let difdays = Math.round(offset/1000/60/60/24)
+            let pricestring = document.getElementById("roomprice").value;
+            let price = parseInt(pricestring);
+            let totalprice = difdays * price
+            if(totalprice == null){
+                document.getElementById("totalprice").style = "visibility: hidden";
+            }else {
+                document.getElementById("totalprice").value = totalprice;
+                document.getElementById("totalprice").style = "visibility: visible";
+            }
+        }
+
+
+    }
+    let date = new Date();
+    let year = date.getFullYear();
+    let month = "0"+(date.getMonth() +1);
+    let day = date.getDate();
+    let today = year +"-"+month+"-"+day;
+    console.log(today);
+    document.getElementById("startdate").setAttribute("min",today)
+</script>
 </html>
