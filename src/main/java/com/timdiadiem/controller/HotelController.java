@@ -35,7 +35,7 @@ public class HotelController {
     RoomService roomService;
 
     @GetMapping
-    public ModelAndView hotel(@PageableDefault(size = 6) Pageable pageable, @RequestParam("name") Optional<String> name, @RequestParam("price") Optional<Double> price) {
+    public ModelAndView hotel(@PageableDefault(size = 3) Pageable pageable, @RequestParam("name") Optional<String> name, @RequestParam("price") Optional<Double> price) {
         Page<Hotel> hotels;
         boolean search =name.isPresent() && price.isPresent();
         if (search && !name.get().equals("")){
