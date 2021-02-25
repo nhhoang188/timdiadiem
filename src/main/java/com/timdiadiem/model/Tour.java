@@ -1,9 +1,16 @@
 package com.timdiadiem.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@NoArgsConstructor
+@Getter
+@Setter
 public class Tour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,82 +27,9 @@ public class Tour {
     @Column(name = "startdate")
     private Date startDate;
     private Integer days;
-
-    public Tour() {
-    }
-
-    public Tour(Long id, Room room, String name, Double price, String sortDescription, String fullDescription, Date startDate, Integer days) {
-        this.id = id;
-        this.room = room;
-        this.name = name;
-        this.price = price;
-        this.sortDescription = sortDescription;
-        this.fullDescription = fullDescription;
-        this.startDate = startDate;
-        this.days = days;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getSortDescription() {
-        return sortDescription;
-    }
-
-    public void setSortDescription(String sortDescription) {
-        this.sortDescription = sortDescription;
-    }
-
-    public String getFullDescription() {
-        return fullDescription;
-    }
-
-    public void setFullDescription(String fullDescription) {
-        this.fullDescription = fullDescription;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Integer getDays() {
-        return days;
-    }
-
-    public void setDays(Integer days) {
-        this.days = days;
-    }
+    private String img1;
+    private String img2;
+    private String img3;
+    private String img4;
+    private String thumbnail;
 }
