@@ -63,4 +63,9 @@ public class BookingServiceImpl implements BookingService {
         }
         return isAvailable;
     }
+
+    @Override
+    public List<Booking> findBookingsByUserId(Long roomid) {
+        return bookingRepository.findBookingsByUserId(roomid);
+    }
 }

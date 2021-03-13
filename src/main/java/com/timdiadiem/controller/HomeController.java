@@ -23,6 +23,6 @@ public class HomeController {
     }
     @GetMapping("/contact")
     public String contactPage(){
-        return "/views-web/contact";
+        return "user";
     }
 }
