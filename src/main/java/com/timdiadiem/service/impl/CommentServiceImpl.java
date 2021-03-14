@@ -48,6 +48,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public Iterable<Comment> findCommentByTourId(Long id) {
+        return commentRepository.findCommentByTourId(id);
+    }
+
+    @Override
     public List<Comment> findCommentByBloglId(Long id) {
         return commentRepository.findCommentByBlogId(id);
     }

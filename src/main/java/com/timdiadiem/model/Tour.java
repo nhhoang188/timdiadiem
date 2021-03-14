@@ -32,4 +32,7 @@ public class Tour {
     private String img3;
     private String img4;
     private String thumbnail;
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
 }

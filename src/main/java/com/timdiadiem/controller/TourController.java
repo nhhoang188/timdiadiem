@@ -36,9 +36,10 @@ public class TourController {
     @Autowired
     RoomService roomService;
     @GetMapping
-    public ModelAndView hotel(@PageableDefault(size = 6) Pageable pageable, @RequestParam("name") Optional<String> name, @RequestParam("price") Optional<Double> price) {
+    public ModelAndView hotel(@PageableDefault(size = 6) Pageable pageable, @RequestParam("name") Optional<String> name, @RequestParam("price") Optional<Double> price, @RequestParam("city") Optional<String> city, Principal principal) {
         Page<Tour> tours;
-        boolean search =name.isPresent() && price.isPresent();
+
+        boolean search =name.isPresent() && price.isPresent() && city.isPresent() ;
         if (search && !name.get().equals("")){
             tours = tourService.findTourByNameAndPrice(name.get(), price.get(), pageable);
         }
@@ -50,6 +51,10 @@ public class TourController {
             tours = tourService.findAll(pageable);
         }
         ModelAndView modelAndView = new ModelAndView("views-web/listtour");
+        if (principal != null){
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            modelAndView.addObject( "user", user);
+        }
         modelAndView.addObject("hotels", tours);
         return modelAndView;
 
@@ -58,9 +63,8 @@ public class TourController {
     @GetMapping("/{id}")
     public ModelAndView hotel(@PathVariable Long id, Principal principal) {
         ModelAndView modelAndView = new ModelAndView("/views-web/tour-info");
-        modelAndView.addObject("hotel", hotelService.findById(id));
-        modelAndView.addObject("listcomment", commentService.findCommentByHotelId(id));
-        modelAndView.addObject("listconvenient", convenientService.findConvenientByHotelId(id));
+        modelAndView.addObject("hotel", tourService.findById(id));
+        modelAndView.addObject("listcomment", commentService.findCommentByTourId(id));
         modelAndView.addObject("comment", new Comment());
         if (principal != null) {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

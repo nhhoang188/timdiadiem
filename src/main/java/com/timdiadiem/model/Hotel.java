@@ -30,5 +30,8 @@ public class Hotel {
     private String thumbnail;
     @OneToMany(targetEntity = Room.class)
     private List<Room> roomlist;
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
 
 }

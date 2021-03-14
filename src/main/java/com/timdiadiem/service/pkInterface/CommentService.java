@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface CommentService extends serviceInterface<Comment> {
     Iterable<Comment> findCommentByHotelId(Long id);
+    Iterable<Comment> findCommentByTourId(Long id);
     List<Comment> findCommentByBloglId(Long id);
 }

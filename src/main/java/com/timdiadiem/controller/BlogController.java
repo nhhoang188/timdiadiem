@@ -2,7 +2,6 @@ package com.timdiadiem.controller;
 
 import com.timdiadiem.model.Blog;
 import com.timdiadiem.model.Comment;
-import com.timdiadiem.model.Hotel;
 import com.timdiadiem.model.User;
 import com.timdiadiem.service.impl.BlogAddRequest;
 import com.timdiadiem.service.pkInterface.BlogCategoryService;
@@ -37,7 +36,7 @@ public class BlogController {
     CommentService commentService;
 
     @GetMapping
-    public ModelAndView showBlogsPage(@PageableDefault(size = 3) Pageable pageable, @RequestParam("name") Optional<String> name) {
+    public ModelAndView showBlogsPage(@PageableDefault(size = 3) Pageable pageable, @RequestParam("name") Optional<String> name, Principal principal) {
         Page<Blog> blogs;
         if (name.isPresent()){
             blogs = blogService.findAllByTitleContaining(name.get(), pageable);
@@ -45,6 +44,10 @@ public class BlogController {
             blogs = blogService.findAll(pageable);
         }
         ModelAndView modelAndView = new ModelAndView("/views-web/blog");
+        if (principal != null){
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            modelAndView.addObject( "user", user);
+        }
         modelAndView.addObject("listBlogs", blogs);
         return modelAndView;
     }

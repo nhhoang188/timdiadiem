@@ -35,7 +35,7 @@ public class HotelController {
     RoomService roomService;
 
     @GetMapping
-    public ModelAndView hotel(@PageableDefault(size = 3) Pageable pageable, @RequestParam("name") Optional<String> name, @RequestParam("price") Optional<Double> price) {
+    public ModelAndView hotel(@PageableDefault(size = 3) Pageable pageable, @RequestParam("name") Optional<String> name, @RequestParam("price") Optional<Double> price, Principal principal) {
         Page<Hotel> hotels;
         boolean search =name.isPresent() && price.isPresent();
         if (search && !name.get().equals("")){
@@ -49,6 +49,10 @@ public class HotelController {
             hotels = hotelService.findAll(pageable);
         }
         ModelAndView modelAndView = new ModelAndView("views-web/listhotel");
+        if (principal != null){
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            modelAndView.addObject( "user", user);
+        }
         modelAndView.addObject("hotels", hotels);
         return modelAndView;
 
