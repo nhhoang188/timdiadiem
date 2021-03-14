@@ -46,22 +46,20 @@
           <li class="dropdown show, nav-item">
             <a class="nav-link">Acount</a>
             <ul class="dropdown-menu">
-              <a class="dropdown-item" href="/login">Login</a>
-              <a class="dropdown-item" href="/register">Register</a>
+                            <span th:if="${user}">
+                                <a class="dropdown-item" href="/profile">Profile</a>
+                                <a class="dropdown-item" href="/logout">Logout</a>
+                            </span>
+              <span th:unless="${user}">
+                                <a class="dropdown-item" href="/login">Login</a>
+                                <a class="dropdown-item" href="/register">Register</a>
+                            </span>
             </ul>
           </li>
         </ul>
       </div>
     </div>
   </nav>
-  <script type="text/javascript">
-    $(function() {
-      $('#blogName').autocomplete({
-        source : ["aaaaaaa","bbbbbbb"],
-        minLength : 3
-      });
-    });
-  </script>
 </head>
 <body>
 

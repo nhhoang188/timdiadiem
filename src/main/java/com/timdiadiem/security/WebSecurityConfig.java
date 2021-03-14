@@ -22,26 +22,28 @@ import java.util.concurrent.TimeUnit;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserService userService;
     private PasswordEncoder passwordEncoder;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/","/about","/contact","/css/**", "/js/**","/blogs/**", "/images/**","/hotels/**","/tours/**","/profile/**").permitAll()
+                .antMatchers("/", "/about", "/contact", "/css/**", "/js/**", "/blogs/**", "/images/**", "/hotels/**", "/tours/**", "/profile/**", "/register/**").permitAll()
                 .antMatchers("/blogs/add").hasAnyAuthority(UserRole.MEMBER.name(), UserRole.ADMIN.name())
-                .antMatchers("/blogs/**").permitAll()
-                .antMatchers("/booking/showbookingform","/booking/checkavailability").hasAnyAuthority(UserRole.MEMBER.name(), UserRole.ADMIN.name())
+                .antMatchers("/blogs/**").permitAll().antMatchers("/static/**").permitAll().antMatchers("/templates/**").permitAll().
+                antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**", "/icon/**","/assets/**", "/dist/**", "/js.js/**", "/scss/**", "/flaticon/**").permitAll().
+                antMatchers("/booking/showbookingform", "/booking/checkavailability").hasAnyAuthority(UserRole.MEMBER.name(), UserRole.ADMIN.name())
                 .antMatchers("/booking/**").permitAll()
                 .antMatchers("/admin/").hasAuthority(UserRole.ADMIN.name()).anyRequest().hasAuthority("ADMIN")
                 .and()
                 .formLogin()
-                .loginPage("/login").permitAll().defaultSuccessUrl("/",true)
-                .and().rememberMe().tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(10)).userDetailsService(userService)
+                .loginPage("/login").permitAll().defaultSuccessUrl("/", true)
+                .and().rememberMe().tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(10)).userDetailsService(userService)
                 .and().logout()
-                .logoutUrl("/logout").logoutRequestMatcher(new AntPathRequestMatcher("/logout","GET"))
+                .logoutUrl("/logout").logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
                 .clearAuthentication(true)
                 .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID","remember-me")
+                .deleteCookies("JSESSIONID", "remember-me")
                 .logoutSuccessUrl("/")
         ;
 
@@ -51,8 +53,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
+
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(){
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder.bCryptPasswordEncoder());
         provider.setUserDetailsService(userService);

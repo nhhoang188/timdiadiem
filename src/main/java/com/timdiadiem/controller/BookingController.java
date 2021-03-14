@@ -7,6 +7,7 @@ import com.timdiadiem.service.email.UserService;
 import com.timdiadiem.service.impl.BankAcountServiceImpl;
 import com.timdiadiem.service.impl.BookingServiceImpl;
 import com.timdiadiem.service.impl.RoomServiceImpl;
+import com.timdiadiem.service.pkInterface.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,14 +33,15 @@ public class BookingController {
     BankAcountServiceImpl bankAcountService;
     @Autowired
     UserService userService;
-
+    @Autowired
+    HotelService hotelService;
     @GetMapping("/getuserandroom")
     public ModelAndView showFormGetRoomandUser(){
         ModelAndView modelAndView = new ModelAndView("/views-web/getuserandroom");
         return modelAndView;
     }
     @GetMapping("/showbookingform")
-    public ModelAndView showBookingForm(@RequestParam(name = "roomid") String hotelidstring){
+    public ModelAndView showBookingForm(@RequestParam(name = "roomid") String hotelidstring, Principal principal){
         Long hotelid=Long.parseLong(hotelidstring);
     List<Room> roomList=roomService.findAllByHotel(hotelid);
         HashMap<Long,Double> roomMap = new HashMap<>();
@@ -46,7 +49,11 @@ public class BookingController {
             roomMap.put(roomList.get(i).getId(),roomList.get(i).getPrice());
         }
     ModelAndView modelAndView = new ModelAndView("/views-web/bookingform");
-//    modelAndView.addObject("user",user1);
+        if (principal != null) {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            modelAndView.addObject("user", user);
+        }
+        modelAndView.addObject("hotel", hotelService.findById(hotelid));
     modelAndView.addObject("roomMap",roomMap);
     return modelAndView;
     }
