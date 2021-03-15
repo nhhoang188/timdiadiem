@@ -12,4 +12,7 @@ public interface TourRepository extends PagingAndSortingRepository<Tour, Long> {
     Page<Tour> findTourByPriceLessThanEqual(Double price, Pageable pageable);
     Page<Tour> findTourByNameAndPriceLessThanEqual(String name, Double price , Pageable pageable);
     Page<Tour> findTourByNameAndPrice(String name, Double price , Pageable pageable);
+    Page<Tour> findTourByNameAndPriceAndCity_Id(String name, Double price, Long city , Pageable pageable);
+    Page<Tour> findTourByCity_Id(Long city, Pageable pageable);
+    Page<Tour> findTourByCityId(Long city, Pageable pageable);
 }

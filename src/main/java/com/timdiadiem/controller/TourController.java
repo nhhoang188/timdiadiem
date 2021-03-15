@@ -36,18 +36,21 @@ public class TourController {
     @Autowired
     RoomService roomService;
     @GetMapping
-    public ModelAndView hotel(@PageableDefault(size = 6) Pageable pageable, @RequestParam("name") Optional<String> name, @RequestParam("price") Optional<Double> price, @RequestParam("city") Optional<String> city, Principal principal) {
+    public ModelAndView hotel(@PageableDefault(size = 6) Pageable pageable, @RequestParam("name") Optional<String> name, @RequestParam("price") Optional<Double> price, @RequestParam("city") Optional<Long> city, Principal principal) {
         Page<Tour> tours;
 
         boolean search =name.isPresent() && price.isPresent() && city.isPresent() ;
-        if (search && !name.get().equals("")){
-            tours = tourService.findTourByNameAndPrice(name.get(), price.get(), pageable);
+        if (search && !name.get().equals("") ){
+            tours = tourService.findTourByNameAndPriceAndCity(name.get(), price.get(), city.get(), pageable);
         }
-        else if (search) {
+        else if (price.isPresent()) {
             tours = tourService.findTourByPriceLessThanEqual(price.get(), pageable);
-        }  else if (name.isPresent()){
+        }  else if (name.isPresent() && !name.get().equals("")){
             tours = tourService.findAllByNameContaining(name.get(), pageable);
-        } else {
+        } else if (city.isPresent()){
+            tours = tourService.findTourByCity(city.get(),pageable);
+        }
+        else {
             tours = tourService.findAll(pageable);
         }
         ModelAndView modelAndView = new ModelAndView("views-web/listtour");

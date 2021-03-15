@@ -103,6 +103,7 @@
                                         <div class="select-wrap">
                                             <div class="icon"><span class="fa fa-chevron-down"></span></div>
                                             <select name="price" id="price" class="form-control">
+                                                <option value="">$</option>
                                                 <option value="5000.0">$5000</option>
                                                 <option value="10000.0">$10000</option>
                                                 <option value="20000.0">$20000</option>
@@ -129,13 +130,14 @@
                                         <div class="select-wrap">
                                             <div class="icon"><span class="fa fa-chevron-down"></span></div>
                                             <select name="city" id="city" class="form-control">
-                                                <option value="Ha Noi">Ha Noi</option>
-                                                <option value="Tam Dao">Tam Dao</option>
-                                                <option value="Moc Chau">Moc Chau</option>
-                                                <option value="Da Lat">Da Lat</option>
-                                                <option value="Nha Trang">Nha Trang</option>
-                                                <option value="Hoi An">Hoi An</option>
-                                                <option value="Da Nang">Da Nang</option>
+                                                <option value=""></option>
+                                                <option value="1">Ha Noi</option>
+                                                <option value="3">Tam Dao</option>
+                                                <option value="2">Moc Chau</option>
+                                                <option value="4">Da Lat</option>
+                                                <option value="5">Nha Trang</option>
+                                                <option value="7">Hoi An</option>
+                                                <option value="6">Da Nang</option>
                                             </select>
                                         </div>
                                     </div>
@@ -195,7 +197,7 @@
                 <div class="block-27">
                     <ul>
                         <li>
-                            <a th:href="@{'/hotels'(page=${hotels.number - 1})}"
+                            <a th:href="@{'/tours'(page=${hotels.number - 1})}"
                                th:if="${hotels.hasPrevious()}">Prev</a>
                         </li>
                         <li class="active"><span th:text="${hotels.number + 1}"></span></li>
@@ -203,7 +205,7 @@
                             <span th:text="${hotels.totalPages}"></span>
                         </li>
                         <li>
-                            <a th:href="@{'hotels'(page=${hotels.number + 1})}"
+                            <a th:href="@{'/tours'(page=${hotels.number + 1})}"
                                th:if="${hotels.hasNext()}">Next</a>
                         </li>
                     </ul>

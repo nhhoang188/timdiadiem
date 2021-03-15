@@ -64,4 +64,19 @@ public class TourServiceImpl implements TourService {
     public Page<Tour> findTourByNameAndPrice(String name, Double price, Pageable pageable) {
         return tourRepository.findTourByNameAndPrice(name,price,pageable);
     }
+
+    @Override
+    public Page<Tour> findTourByNameAndPriceAndCity(String name, Double price, Long city, Pageable pageable) {
+        return tourRepository.findTourByNameAndPriceAndCity_Id(name,price,city,pageable);
+    }
+
+    @Override
+    public Page<Tour> findTourByCity(Long city, Pageable pageable) {
+        return tourRepository.findTourByCity_Id(city,pageable);
+    }
+
+    @Override
+    public Page<Tour> findTourByCityId(Long city, Pageable pageable) {
+        return tourRepository.findTourByCityId(city,pageable);
+    }
 }

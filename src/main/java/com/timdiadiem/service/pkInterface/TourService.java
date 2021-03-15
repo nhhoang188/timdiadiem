@@ -10,4 +10,7 @@ public interface TourService extends serviceInterface<Tour> {
     Page<Tour> findTourByPriceLessThanEqual(Double price, Pageable pageable);
     Page<Tour> findTourByNameAndPriceLessThanEqual(String name, Double price , Pageable pageable);
     Page<Tour> findTourByNameAndPrice(String name, Double price , Pageable pageable);
+    Page<Tour> findTourByNameAndPriceAndCity(String name, Double price, Long city , Pageable pageable);
+    Page<Tour> findTourByCity(Long city, Pageable pageable);
+    Page<Tour> findTourByCityId(Long city, Pageable pageable);
 }
